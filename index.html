@@ -70,8 +70,9 @@ h1{font-size:16px;font-weight:500;margin:0}
 .cv{background:var(--bg2);border-radius:var(--r-lg);padding:14px;position:relative;transition:background .15s,outline-color .15s}
 .cv.adding-op{background:var(--info-bg);outline:2px dashed var(--info);outline-offset:-6px}
 .cv.adding-thr{background:var(--warn-bg);outline:2px dashed var(--warn);outline-offset:-6px}
+.cv.adding-drain{background:var(--warn-bg);outline:2px dashed var(--info);outline-offset:-6px}
 .cv svg{display:block;width:100%;height:auto;touch-action:manipulation}
-.cv.adding-op svg,.cv.adding-thr svg{cursor:crosshair}
+.cv.adding-op svg,.cv.adding-thr svg,.cv.adding-drain svg{cursor:crosshair}
 
 .wall{stroke:var(--line);stroke-width:7;stroke-linecap:round;pointer-events:none}
 .wall.sel{stroke:var(--info);stroke-width:9}
@@ -134,6 +135,74 @@ body.dragging .oh,body.dragging .thr-rect{cursor:grabbing}
 .ftile.cut{fill:var(--floor-cut)}
 .tile-num{font-size:8px;fill:var(--muted);pointer-events:none;user-select:none;text-anchor:middle;dominant-baseline:middle}
 .preview-opening{fill:var(--bg2);stroke:var(--info);stroke-width:1.2;stroke-dasharray:4 3}
+.preview-opening-edge{stroke:var(--info);stroke-width:1.2;stroke-dasharray:4 3;fill:none}
+.drain-rect{fill:var(--bg3,#d8d8d0);stroke:var(--fg);stroke-width:1.5;cursor:grab;touch-action:none}
+.drain-rect.sel{stroke:var(--info);stroke-width:2.5}
+.drain-cross{stroke:var(--fg);stroke-width:1;pointer-events:none}
+#drain-thr-table{padding:6px 10px 2px;font-size:12px}
+#drain-thr-table table{border-collapse:collapse;width:100%}
+#drain-thr-table th,#drain-thr-table td{border:1px solid var(--line2,#ccc);padding:3px 7px;text-align:center;white-space:nowrap}
+#drain-thr-table th{background:var(--bg2);font-weight:600;font-size:11px}
+#drain-thr-table td:first-child{text-align:left;font-weight:500}
+#drain-thr-table .tbl-toggle{display:flex;align-items:center;gap:6px;margin-bottom:5px;font-size:12px}
+.drain-dim-toggle{display:inline-flex;align-items:center;gap:6px;cursor:pointer;user-select:none;font-size:13px}
+.drain-dim-toggle input[type=checkbox]{width:34px;height:18px;appearance:none;background:var(--fg3,#aaa);border-radius:9px;position:relative;cursor:pointer;transition:background .2s}
+.drain-dim-toggle input[type=checkbox]:checked{background:var(--info)}
+.drain-dim-toggle input[type=checkbox]::after{content:'';position:absolute;width:14px;height:14px;border-radius:50%;background:#fff;top:2px;left:2px;transition:left .2s}
+.drain-dim-toggle input[type=checkbox]:checked::after{left:18px}
+#drain-thr-table{margin:6px 0 2px}
+.dtt-wrap{border:1px solid var(--line2,#ddd);border-radius:6px;overflow:hidden;font-size:12px}
+.dtt-header{display:flex;align-items:center;padding:5px 10px;background:var(--bg2);font-size:12px;font-weight:600;gap:8px}
+.dtt-title{flex:1}
+.dtt-mode-lbl{font-size:11px;color:var(--muted);font-weight:400}
+.dtt{width:100%;border-collapse:collapse}
+.dtt th{background:var(--bg2);font-weight:500;color:var(--muted);font-size:11px;padding:3px 10px;border-bottom:1px solid var(--line2,#eee);text-align:center}
+.dtt th:first-child{text-align:left}
+.dtt td{padding:4px 10px;border-bottom:1px solid var(--line2,#f0f0f0);text-align:center;font-variant-numeric:tabular-nums}
+.dtt td:first-child{text-align:left}
+.dtt tbody tr:last-child td{border-bottom:none}
+.dtt tbody tr.dtt-sel td{background:var(--info-bg,rgba(0,120,255,.07));font-weight:600}
+.dtt-name{display:flex;align-items:center;gap:5px;white-space:nowrap}
+.dtt-icon{font-size:11px;opacity:.7}
+.dtt-na{color:var(--muted);opacity:.5}
+/* ── Corner trim strip calculator ── */
+#trim-calc-section{padding:6px 0 2px}
+.trim-wrap{border:1px solid var(--line2,#ddd);border-radius:6px;overflow:hidden;font-size:12px;margin-top:4px}
+.trim-header{display:flex;align-items:center;padding:5px 10px;background:var(--bg2);font-size:12px;font-weight:600;gap:6px}
+.trim-strip-len{margin-left:auto;display:flex;align-items:center;gap:4px;font-weight:400;font-size:11px;color:var(--muted)}
+.trim-strip-len input{width:44px;padding:1px 4px;border:1px solid var(--line2,#ccc);border-radius:3px;font-size:11px;text-align:center;background:var(--bg);color:var(--fg)}
+.trim-tbl{width:100%;border-collapse:collapse}
+.trim-tbl th{background:var(--bg2);font-weight:500;color:var(--muted);font-size:11px;padding:3px 8px;border-bottom:1px solid var(--line2,#eee);text-align:left}
+.trim-tbl th.r,.trim-tbl td.r{text-align:right}
+.trim-tbl th.c,.trim-tbl td.c{text-align:center}
+.trim-tbl td{padding:4px 8px;border-bottom:1px solid var(--line2,#f0f0f0);font-variant-numeric:tabular-nums;vertical-align:top}
+.trim-tbl tbody tr:last-child td{border-bottom:none}
+.trim-tbl .trim-sub{color:var(--muted);font-size:10px;line-height:1.4}
+.trim-tbl .trim-total-row td{font-weight:600;background:var(--bg2);border-top:1.5px solid var(--line2,#ddd)}
+.trim-qty{font-weight:700;color:var(--info);font-size:13px}
+/* ── Material info input panel ── */
+.mat-info-panel{margin:6px 0}
+.mat-info-panel h3{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin:0 0 6px}
+.mat-fields{display:flex;flex-direction:column;gap:5px}
+.mat-row{display:flex;align-items:center;gap:8px;font-size:12px}
+.mat-row span{width:56px;flex-shrink:0;color:var(--muted);text-align:right;font-size:11px}
+.mat-row input{flex:1;padding:3px 7px;border:1px solid var(--line2,#ccc);border-radius:4px;font-size:12px;background:var(--bg);color:var(--fg)}
+/* ── Material summary ── */
+#material-summary{margin:6px 0 2px}
+.msm-wrap{border:1px solid var(--line2,#ddd);border-radius:6px;overflow:hidden;font-size:12px}
+.msm-head{padding:6px 10px;background:var(--bg2);font-weight:600;font-size:12px;display:flex;align-items:center;gap:6px}
+.msm-loc{flex:1;font-size:13px}
+.msm-section{padding:4px 0}
+.msm-section-title{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;padding:4px 10px 2px;border-top:1px solid var(--line2,#eee)}
+.msm-section-title:first-child{border-top:none}
+.msm-row{display:flex;align-items:baseline;gap:6px;padding:3px 10px}
+.msm-row .msm-label{flex:0 0 60px;color:var(--muted);font-size:11px}
+.msm-row .msm-model{font-weight:500;flex:1}
+.msm-row .msm-qty{font-size:11px;color:var(--muted);white-space:nowrap}
+.msm-row .msm-bold{font-weight:700;color:var(--info)}
+.msm-divider{border:none;border-top:1px solid var(--line2,#eee);margin:2px 0}
+.msm-total-row{background:var(--bg2);border-top:1.5px solid var(--line2,#ddd);padding:5px 10px;font-weight:600;display:flex;justify-content:space-between;font-size:12px}
+#drain-thr-table{padding:8px 0 4px;}
 .preview-thr{fill:#c0a880;stroke:#80603a;stroke-width:1;opacity:.85}
 .preview-label{font-size:10px;fill:var(--muted);font-weight:500;text-anchor:middle;pointer-events:none}
 .install-line{stroke:var(--warn);stroke-width:.8;stroke-dasharray:5 3;opacity:.7}
@@ -157,15 +226,25 @@ body.dragging .oh,body.dragging .thr-rect{cursor:grabbing}
 .tile-section h3 .seg button.active:hover{background:var(--line)}
 input[type="range"]{touch-action:none}
 
-.settings-compact{display:flex;gap:24px;flex-wrap:wrap;background:var(--card);border:.5px solid var(--border);border-radius:var(--r-lg);padding:8px 14px;align-items:center}
-.settings-compact .grp{display:inline-flex;align-items:center;gap:10px;flex-wrap:wrap}
-.settings-compact .grp-lbl{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.settings-compact{display:flex;flex-direction:column;gap:6px;background:var(--card);border:.5px solid var(--border);border-radius:var(--r-lg);padding:8px 14px}
+.settings-compact .sc-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.settings-compact .sc-row-tile{gap:8px}
+.settings-compact .grp-lbl{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.04em;text-transform:uppercase;flex-shrink:0}
 .settings-compact label{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);margin:0}
 .settings-compact .x{color:var(--hint);font-size:11px}
-.settings-compact input{width:46px;height:26px;font-size:12px;border:.5px solid var(--border2);border-radius:5px;padding:0 5px;background:var(--card);color:var(--fg);text-align:center;-webkit-appearance:none;font-weight:500}
-.settings-compact input:focus{outline:none;border-color:var(--info);box-shadow:0 0 0 2px var(--info-bg)}
-.settings-compact input::-webkit-outer-spin-button,.settings-compact input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-.settings-compact .unit{font-size:11px;color:var(--hint)}
+.settings-compact input[type=number]{width:46px;height:26px;font-size:12px;border:.5px solid var(--border2);border-radius:5px;padding:0 5px;background:var(--card);color:var(--fg);text-align:center;-webkit-appearance:none;font-weight:500}
+.settings-compact input[type=number]:focus{outline:none;border-color:var(--info);box-shadow:0 0 0 2px var(--info-bg)}
+.settings-compact input[type=number]::-webkit-outer-spin-button,.settings-compact input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.settings-compact .unit,.settings-compact .unit-mm{font-size:11px;color:var(--hint)}
+.settings-compact .sc-model{gap:4px}
+.sc-model-in{width:80px!important;text-align:left!important;font-size:11px!important;font-weight:400!important;color:var(--fg)!important}
+.sc-div{color:var(--border2);font-size:16px;padding:0 2px}
+/* Tile group blocks */
+.sc-tile-grp{display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;padding:4px 10px 4px 8px;border-radius:6px;border:.5px solid var(--border2)}
+.sc-tile-wall{background:rgba(100,140,200,.07);border-left:3px solid rgba(100,140,200,.5)}
+.sc-tile-floor{background:rgba(140,180,130,.07);border-left:3px solid rgba(140,180,130,.5)}
+.sc-grp-lbl{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;flex-shrink:0}
+.sc-row-tile{gap:10px}
 
 .plan-grid{display:grid;grid-template-columns:50px 1fr;grid-template-rows:30px 32px auto auto;gap:6px;align-items:stretch}
 .plan-grid > .fbond-ctrl{grid-column:1 / -1;grid-row:1;display:flex;align-items:center;gap:8px;padding-left:4px}
@@ -192,6 +271,9 @@ html[data-theme="dark"] #tile-unfolded{--uf-wall-fill:rgba(100,140,200,0.30);--u
 #tile-unfolded .uf-wall-bound{fill:none;stroke:var(--border2);stroke-width:1;pointer-events:none}
 #tile-unfolded .uf-opening{fill:rgba(127,127,127,0.20);stroke:var(--info);stroke-width:1.2;stroke-dasharray:3 2;pointer-events:none}
 #tile-unfolded .uf-opening-label{fill:var(--info);font-weight:600;text-anchor:middle;dominant-baseline:middle;pointer-events:none}
+#tile-unfolded .uf-drain-rect{fill:var(--bg3,#d8d8d0);stroke:var(--fg);stroke-width:1.2;pointer-events:none}
+#tile-unfolded .uf-drain-cross{stroke:var(--fg);stroke-width:0.8;pointer-events:none}
+#tile-unfolded .uf-drain-label{fill:var(--fg);text-anchor:middle;dominant-baseline:auto;pointer-events:none;font-weight:600}
 #tile-unfolded .uf-thr{fill:var(--warn-bg);stroke:var(--warn);stroke-width:1;pointer-events:none}
 #tile-unfolded .uf-wall-label{fill:var(--muted);font-weight:600;letter-spacing:0.04em;pointer-events:none;text-anchor:middle;dominant-baseline:middle}
 #tile-unfolded .uf-corner-label{fill:var(--hint);font-weight:500;pointer-events:none;text-anchor:middle;dominant-baseline:middle;opacity:0.7}
@@ -239,6 +321,45 @@ html[data-theme="dark"] #tile-unfolded{--uf-wall-fill:rgba(100,140,200,0.30);--u
   #print-area .print-page--full .print-body{grid-template-columns:1fr}
   #print-area .print-page--full .print-section{height:185mm;display:flex;flex-direction:column;justify-content:center;align-items:stretch}
   #print-area .print-page--full .print-section svg{max-height:178mm;width:auto;max-width:100%;height:auto;margin:0 auto}
+  /* ── Compact metrics table (replaces print-metrics + print-room-metrics) ── */
+  #print-area .pm-tbl{width:100%;border-collapse:collapse;margin:0 0 3mm;font-size:9.5pt}
+  #print-area .pm-tbl thead th{font-size:7pt;font-weight:600;color:#504e49;letter-spacing:.05em;text-align:right;padding:1mm 2mm;border-bottom:.5pt solid #c8c6bc}
+  #print-area .pm-tbl thead th.pm-item{text-align:left}
+  #print-area .pm-tbl .pm-row td{padding:1.8mm 2mm;border-bottom:.25pt solid #eeede6;vertical-align:baseline}
+  #print-area .pm-tbl .pm-item{text-align:left;font-weight:500;color:#141413}
+  #print-area .pm-tbl .pm-model{display:block;font-size:7.5pt;font-weight:400;color:#1B365D;margin-top:.5mm;letter-spacing:.02em}
+  #print-area .pm-tbl .pm-grout{display:block;font-size:7pt;font-weight:400;color:#504e49;margin-top:.3mm}
+  #print-area .pm-tbl .pm-num{text-align:right;font-variant-numeric:tabular-nums;color:#141413}
+  #print-area .pm-tbl .pm-buy{font-weight:600;color:#1B365D}
+  #print-area .pm-tbl .pm-unit{font-size:7pt;font-weight:400;color:#504e49;margin-left:.8mm}
+  #print-area .pm-tbl .pm-aux td{font-size:8pt;color:#3d3d3a;padding:1.5mm 2mm;background:#faf9f5;border-top:.35pt solid #e8e6dc;line-height:1.6}
+  #print-area .pm-tbl .pm-muted{color:#6b6a64;font-size:7.5pt}
+  /* ── Page 2 minimal header ── */
+  #print-area .print-page2-header{display:flex;align-items:baseline;gap:4mm;margin-bottom:2mm}
+  #print-area .p2-title{font-size:11pt;font-weight:500;color:#141413}
+  #print-area .p2-spec{font-size:8pt;color:#504e49;flex:1}
+  #print-area .p2-meta{font-size:7.5pt;color:#6b6a64;font-family:"JetBrains Mono","SF Mono",Consolas,monospace}
+  /* ── Materials summary page ── */
+  #print-area .mat-sum-page{max-height:none}
+  #print-area .mat-sum-body{display:grid;grid-template-columns:1fr 1.6fr;gap:6mm;margin-top:3mm}
+  #print-area .mat-sum-col{display:flex;flex-direction:column;gap:4mm}
+  #print-area .ms-block{border:.3pt solid #c8c6bc;border-radius:1mm;padding:2.5mm 3mm;break-inside:avoid}
+  #print-area .ms-block-title{font-size:8pt;font-weight:600;color:#1B365D;letter-spacing:.06em;margin-bottom:2mm;border-bottom:.25pt solid #e8e6dc;padding-bottom:1.5mm}
+  #print-area .ms-tbl{width:100%;border-collapse:collapse;font-size:9pt}
+  #print-area .ms-tbl td,#print-area .ms-tbl th{padding:1mm 1.5mm;vertical-align:top}
+  #print-area .ms-tbl .ms-lbl{width:22mm;color:#504e49;font-size:8pt;font-weight:500}
+  #print-area .ms-tbl .ms-val{color:#141413}
+  #print-area .ms-tbl-trim thead th{font-size:7.5pt;font-weight:600;color:#504e49;border-bottom:.3pt solid #e8e6dc;padding-bottom:1mm}
+  #print-area .ms-tbl-trim tbody td{font-size:8.5pt;border-bottom:.2pt solid #f0efe8}
+  #print-area .ms-tbl-trim .qty{text-align:right;font-variant-numeric:tabular-nums}
+  #print-area .ms-tbl-trim tfoot .ms-total td{font-weight:600;border-top:.5pt solid #c8c6bc;background:#faf9f5;padding-top:1.5mm}
+  /* Room metrics row in print */
+  #print-area .print-room-metrics{display:grid;grid-template-columns:auto repeat(5,1fr);gap:1.5mm;margin:0 0 2mm;align-items:stretch;page-break-inside:avoid}
+  #print-area .print-room-metrics .row-label{font-size:9pt;font-weight:500;color:#141413;align-self:center;padding-right:2mm}
+  #print-area .print-room-metrics .cell{background:#faf9f5;border:.3pt solid #e8e6dc;border-radius:1.5mm;padding:1mm 2mm;display:flex;flex-direction:column;justify-content:center;min-height:8mm}
+  #print-area .print-room-metrics .cell .lbl{font-size:6.5pt;font-weight:600;color:#504e49;letter-spacing:.04em}
+  #print-area .print-room-metrics .cell .val{font-size:10.5pt;font-weight:500;color:#1B365D;font-variant-numeric:tabular-nums;line-height:1.05;margin-top:.4mm}
+  #print-area .print-room-metrics .cell .unit{font-size:7.5pt;font-weight:400;color:#504e49;margin-left:1.2mm}
   @page{size:A4 landscape;margin:10mm 12mm}
 }
 
@@ -372,18 +493,28 @@ input[type=file]{display:none}
 </div>
 
 <div class="settings-compact">
-  <div class="grp">
+  <div class="sc-row">
     <span class="grp-lbl">房間</span>
     <label>長 <input id="rl" type="number" inputmode="numeric" value="280"/></label>
     <label>寬 <input id="rw" type="number" inputmode="numeric" value="180"/></label>
     <label>牆高 <input id="rh" type="number" inputmode="numeric" value="270"/></label>
     <label>鋪到 <input id="ih" type="number" inputmode="numeric" value="240"/></label>
   </div>
-  <div class="grp">
-    <span class="grp-lbl">磁磚</span>
-    <label>牆 <input id="tww" type="number" inputmode="numeric" value="600"/><span class="x">×</span><input id="twh" type="number" inputmode="numeric" value="300"/><span class="unit-mm">mm</span><button type="button" class="tile-rot" id="rot-wall" title="長寬對調 (旋轉 90°)" aria-label="牆磚長寬對調"><svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M2.5 7.5a5.5 5.5 0 0 1 9.4-3.9l1.6 1.6V3a.75.75 0 0 1 1.5 0v4a.75.75 0 0 1-.75.75H10.25a.75.75 0 0 1 0-1.5h2.19l-1.6-1.6A4 4 0 0 0 4 7.5a.75.75 0 0 1-1.5 0Z" fill="currentColor"/><path d="M13.5 8.5a5.5 5.5 0 0 1-9.4 3.9L2.5 10.8V13a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75H5.75a.75.75 0 0 1 0 1.5H3.56l1.6 1.6A4 4 0 0 0 12 8.5a.75.75 0 0 1 1.5 0Z" fill="currentColor"/></svg></button></label>
-    <label>地 <input id="tfw" type="number" inputmode="numeric" value="300"/><span class="x">×</span><input id="tfh" type="number" inputmode="numeric" value="300"/><span class="unit-mm">mm</span><button type="button" class="tile-rot" id="rot-floor" title="長寬對調 (旋轉 90°)" aria-label="地磚長寬對調"><svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M2.5 7.5a5.5 5.5 0 0 1 9.4-3.9l1.6 1.6V3a.75.75 0 0 1 1.5 0v4a.75.75 0 0 1-.75.75H10.25a.75.75 0 0 1 0-1.5h2.19l-1.6-1.6A4 4 0 0 0 4 7.5a.75.75 0 0 1-1.5 0Z" fill="currentColor"/><path d="M13.5 8.5a5.5 5.5 0 0 1-9.4 3.9L2.5 10.8V13a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75H5.75a.75.75 0 0 1 0 1.5H3.56l1.6 1.6A4 4 0 0 0 12 8.5a.75.75 0 0 1 1.5 0Z" fill="currentColor"/></svg></button></label>
-    <label>縫 <input id="grt" type="number" inputmode="numeric" value="3" step="0.5"/><span class="unit">mm</span></label>
+  <div class="sc-row sc-row-tile">
+    <div class="sc-tile-grp sc-tile-wall">
+      <span class="sc-grp-lbl">牆磚</span>
+      <label class="sc-model"><input id="mat-wall-tile" type="text" class="sc-model-in" placeholder="型號"/></label>
+      <label>尺寸 <input id="tww" type="number" inputmode="numeric" value="600"/><span class="x">×</span><input id="twh" type="number" inputmode="numeric" value="300"/><span class="unit-mm">mm</span><button type="button" class="tile-rot" id="rot-wall" title="長寬對調" aria-label="牆磚長寬對調"><svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M2.5 7.5a5.5 5.5 0 0 1 9.4-3.9l1.6 1.6V3a.75.75 0 0 1 1.5 0v4a.75.75 0 0 1-.75.75H10.25a.75.75 0 0 1 0-1.5h2.19l-1.6-1.6A4 4 0 0 0 4 7.5a.75.75 0 0 1-1.5 0Z" fill="currentColor"/><path d="M13.5 8.5a5.5 5.5 0 0 1-9.4 3.9L2.5 10.8V13a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75H5.75a.75.75 0 0 1 0 1.5H3.56l1.6 1.6A4 4 0 0 0 12 8.5a.75.75 0 0 1 1.5 0Z" fill="currentColor"/></svg></button></label>
+      <label class="sc-model">縫劑 <input id="mat-wall-grout" type="text" class="sc-model-in" placeholder="型號"/></label>
+      <label>縫 <input id="grt-wall" type="number" inputmode="numeric" value="3" step="0.5"/><span class="unit">mm</span></label>
+    </div>
+    <div class="sc-tile-grp sc-tile-floor">
+      <span class="sc-grp-lbl">地磚</span>
+      <label class="sc-model"><input id="mat-floor-tile" type="text" class="sc-model-in" placeholder="型號"/></label>
+      <label>尺寸 <input id="tfw" type="number" inputmode="numeric" value="300"/><span class="x">×</span><input id="tfh" type="number" inputmode="numeric" value="300"/><span class="unit-mm">mm</span><button type="button" class="tile-rot" id="rot-floor" title="長寬對調" aria-label="地磚長寬對調"><svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M2.5 7.5a5.5 5.5 0 0 1 9.4-3.9l1.6 1.6V3a.75.75 0 0 1 1.5 0v4a.75.75 0 0 1-.75.75H10.25a.75.75 0 0 1 0-1.5h2.19l-1.6-1.6A4 4 0 0 0 4 7.5a.75.75 0 0 1-1.5 0Z" fill="currentColor"/><path d="M13.5 8.5a5.5 5.5 0 0 1-9.4 3.9L2.5 10.8V13a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75H5.75a.75.75 0 0 1 0 1.5H3.56l1.6 1.6A4 4 0 0 0 12 8.5a.75.75 0 0 1 1.5 0Z" fill="currentColor"/></svg></button></label>
+      <label class="sc-model">縫劑 <input id="mat-floor-grout" type="text" class="sc-model-in" placeholder="型號"/></label>
+      <label>縫 <input id="grt-floor" type="number" inputmode="numeric" value="3" step="0.5"/><span class="unit">mm</span></label>
+    </div>
   </div>
 </div>
 
@@ -419,14 +550,16 @@ input[type=file]{display:none}
         </div>
         <div class="plan-area">
           <svg id="canvas" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-            <g id="g-w"></g><g id="g-tiles"></g><g id="g-walls"></g><g id="g-o"></g><g id="g-d"></g><g id="g-a"></g><g id="g-c"></g><g id="g-wh"></g><g id="g-oh"></g><g id="g-thr"></g><g id="g-shaft"></g><g id="g-pdim"></g><g id="g-add"></g><g id="g-edit"></g>
+            <g id="g-w"></g><g id="g-tiles"></g><g id="g-walls"></g><g id="g-o"></g><g id="g-d"></g><g id="g-a"></g><g id="g-c"></g><g id="g-wh"></g><g id="g-oh"></g><g id="g-thr"></g><g id="g-drain"></g><g id="g-shaft"></g><g id="g-pdim"></g><g id="g-add"></g><g id="g-edit"></g>
           </svg>
         </div>
+        <div id="drain-thr-table" style="display:none"></div>
         <div class="tools">
           <button id="add-d90">+ 門 90</button>
           <button id="add-d75">+ 門 75</button>
           <button id="add-win">+ 加窗</button>
           <button id="add-thr">+ 門檻</button>
+          <button id="add-drain">+ 地排</button>
           <button id="add-shaft">+ 管道間</button>
           <button id="cancel-add" style="display:none;color:var(--danger);margin-left:auto">取消</button>
         </div>
@@ -439,6 +572,14 @@ input[type=file]{display:none}
 </div>
 
 <div class="summary-bar">
+  <div class="sb-row">
+    <span class="sb-row-lbl">浴室尺寸</span>
+    <div class="it"><div class="lab">長×寬</div><div class="val" id="s-room-size">—</div><div class="sub">cm</div></div>
+    <div class="it"><div class="lab">周長</div><div class="val" id="s-perimeter">—</div><div class="sub">cm</div></div>
+    <div class="it"><div class="lab">牆高</div><div class="val" id="s-wall-h">—</div><div class="sub">cm</div></div>
+    <div class="it"><div class="lab">鋪磚高</div><div class="val" id="s-install-h">—</div><div class="sub">cm</div></div>
+    <div class="it"><div class="lab">地坪面積</div><div class="val" id="s-floor-area-room">—</div><div class="sub">m²</div></div>
+  </div>
   <div class="sb-row">
     <span class="sb-row-lbl">牆面磁磚</span>
     <div class="it"><div class="lab">全片</div><div class="val" id="s-w-full">—</div><div class="sub">片</div></div>
@@ -453,7 +594,11 @@ input[type=file]{display:none}
     <div class="it"><div class="lab">估購</div><div class="val" id="s-f-buy">—</div><div class="sub" id="s-f-buy-sub">—</div></div>
     <div class="it"><div class="lab">鋪貼面積</div><div class="val" id="s-f-area">—</div><div class="sub">m²</div><div class="val-pin" id="s-f-pin">—</div><div class="sub">坪</div></div>
   </div>
+  <div id="trim-calc-section" style="display:none"></div>
+  <div id="material-summary" style="display:none"></div>
 </div>
+
+<!-- Material model inputs are now inline in settings-compact -->
 
 </div>
   <div class="col">
@@ -587,12 +732,17 @@ const SCALE = 1.0; // plan is in cm directly (1px = 1cm visually for simple sizi
 // State
 let state = {
   room: { length: 280, width: 180, wallHeight: 270, installHeight: 240 },
-  tiles: { wallW: 60, wallH: 30, floorW: 30, floorH: 30, groutMm: 3, bondMode: 'aligned', floorBondMode: 'aligned', dimStyle: 'plain', cuttingMode: 'naive', offsetX: { W1: 0, W2: 0, W3: 0, W4: 0 }, offsetY: 0, floorOffset: { x: 0, y: 0 } },
+  tiles: { wallW: 60, wallH: 30, floorW: 30, floorH: 30, groutMm: 3, groutWallMm: 3, groutFloorMm: 3, bondMode: 'aligned', floorBondMode: 'aligned', dimStyle: 'plain', cuttingMode: 'naive', offsetX: { W1: 0, W2: 0, W3: 0, W4: 0 }, offsetY: 0, floorOffset: { x: 0, y: 0 } },
   openings: [
     { id:'D1', wall:'W2', type:'door',   width:75, height:200, left:30, bottom:0, hinge:'s', swing:'l' },
     { id:'C1', wall:'W3', type:'window', width:90, height:60,  left:80, bottom:130 }
   ],
   threshold: null, // { width:6, axis:'y', offset:0 } when enabled
+  drain: null,     // kept for legacy — use drains[] below
+  drains: [],      // [{ id, x, y }] — multiple drains, each 10×10 cm
+  drainDimMode: 'edge',
+  trimStripLen: 240,
+  materials: { location:'', wallTileModel:'', floorTileModel:'', groutWallModel:'', groutFloorModel:'' }, // 'edge' | 'center' — what the dimension lines measure to
   shafts: [],      // [{ id, wall:'W1', offsetAlong, lenAlong, depth }]  pipe-shaft footprints (always wall-attached)
   selected: null,  // {kind:'wall'|'opening'|'threshold'|'shaft', id}
   oCnt: 100,
@@ -602,7 +752,8 @@ let state = {
 let pendingOp = null; // {type, width, height} when addOp mode
 let lastEditedField = null;
 
-const grout=()=>state.tiles.groutMm/10;
+const grout  = () => (state.tiles.groutWallMm  || state.tiles.groutMm || 3) / 10;
+const groutF = () => (state.tiles.groutFloorMm || state.tiles.groutMm || 3) / 10;
 
 // ===== Wall identification (W1=south/bottom, W2=west/left, W3=north/top, W4=east/right) =====
 function getWallByName(name){
@@ -1202,8 +1353,8 @@ function wallPath(name, scale, pad){
 function renderPlan(floorData){
   const svg=$('canvas');
   const Gw=$('g-w'),Gtiles=$('g-tiles'),Gwalls=$('g-walls'),Go=$('g-o'),Gd=$('g-d'),Ga=$('g-a'),Gc=$('g-c'),
-        Gwh=$('g-wh'),Goh=$('g-oh'),Gthr=$('g-thr'),Gshaft=$('g-shaft'),Gpdim=$('g-pdim'),Gadd=$('g-add'),Gedit=$('g-edit');
-  [Gw,Gtiles,Gwalls,Go,Gd,Ga,Gc,Gwh,Goh,Gthr,Gshaft,Gpdim,Gadd,Gedit].forEach(g=>g.innerHTML='');
+        Gwh=$('g-wh'),Goh=$('g-oh'),Gthr=$('g-thr'),Gdrain=$('g-drain'),Gshaft=$('g-shaft'),Gpdim=$('g-pdim'),Gadd=$('g-add'),Gedit=$('g-edit');
+  [Gw,Gtiles,Gwalls,Go,Gd,Ga,Gc,Gwh,Goh,Gthr,Gdrain,Gshaft,Gpdim,Gadd,Gedit].forEach(g=>g.innerHTML='');
 
   const r=state.room;
   const scale=planScale();
@@ -1250,52 +1401,7 @@ function renderPlan(floorData){
     tr.dataset.thr='1';
     Gthr.appendChild(tr);
     Gthr.appendChild(mt(pad+(t.x+t.w/2)*scale, pad+(t.y+t.h/2)*scale, '門檻 '+t.w+'cm', 'preview-label'));
-
-    if(sel){
-      const ts=state.threshold;
-      const isY = ts.axis==='y';
-      const totalLen = isY ? r.length : r.width;
-      const d1 = ts.offset;
-      const d2 = totalLen - ts.offset - ts.width;
-      const tickH = 6;
-      if(isY){
-        // vertical strip; horizontal dim lines at midY
-        const midY = pad + r.width*scale/2;
-        const xW2 = pad;
-        const xL = pad + ts.offset*scale;
-        const xR = pad + (ts.offset+ts.width)*scale;
-        const xW4 = pad + r.length*scale;
-        // d1 line + ticks
-        Ga.appendChild(ml({x:xW2,y:midY},{x:xL,y:midY},'od'));
-        Ga.appendChild(ml({x:xW2,y:midY-tickH},{x:xW2,y:midY+tickH},'ot'));
-        Ga.appendChild(ml({x:xL,y:midY-tickH},{x:xL,y:midY+tickH},'ot'));
-        Gedit.appendChild(makeInlineInput((xW2+xL)/2, midY-14, d1,
-          v=>applyThrDist('start',v), {width:54,height:22}));
-        // d2 line + ticks
-        Ga.appendChild(ml({x:xR,y:midY},{x:xW4,y:midY},'od'));
-        Ga.appendChild(ml({x:xR,y:midY-tickH},{x:xR,y:midY+tickH},'ot'));
-        Ga.appendChild(ml({x:xW4,y:midY-tickH},{x:xW4,y:midY+tickH},'ot'));
-        Gedit.appendChild(makeInlineInput((xR+xW4)/2, midY-14, d2,
-          v=>applyThrDist('end',v), {width:54,height:22}));
-      } else {
-        // horizontal strip; vertical dim lines at midX
-        const midX = pad + r.length*scale/2;
-        const yW3 = pad;
-        const yT = pad + ts.offset*scale;
-        const yB = pad + (ts.offset+ts.width)*scale;
-        const yW1 = pad + r.width*scale;
-        Ga.appendChild(ml({x:midX,y:yW3},{x:midX,y:yT},'od'));
-        Ga.appendChild(ml({x:midX-tickH,y:yW3},{x:midX+tickH,y:yW3},'ot'));
-        Ga.appendChild(ml({x:midX-tickH,y:yT},{x:midX+tickH,y:yT},'ot'));
-        Gedit.appendChild(makeInlineInput(midX+30, (yW3+yT)/2, d1,
-          v=>applyThrDist('start',v), {width:54,height:22}));
-        Ga.appendChild(ml({x:midX,y:yB},{x:midX,y:yW1},'od'));
-        Ga.appendChild(ml({x:midX-tickH,y:yB},{x:midX+tickH,y:yB},'ot'));
-        Ga.appendChild(ml({x:midX-tickH,y:yW1},{x:midX+tickH,y:yW1},'ot'));
-        Gedit.appendChild(makeInlineInput(midX+30, (yB+yW1)/2, d2,
-          v=>applyThrDist('end',v), {width:54,height:22}));
-      }
-    }
+    // Distances shown in table below plan — no SVG dim lines drawn here
   }
 
   // pipe shafts on floor
@@ -1542,6 +1648,11 @@ function renderPlan(floorData){
       placeThreshold(pt, scale, pad);
       return;
     }
+    if(state.mode==='addDrain'){
+      const pt=svgPt(e); if(!pt) return;
+      placeDrain(pt, scale, pad);
+      return;
+    }
     if(state.mode==='addOp') return;  // ignore in add-opening mode
     // edit mode: empty area click deselects (wall/opening/threshold/cycle handlers
     // call stopPropagation, so they never reach here)
@@ -1551,8 +1662,106 @@ function renderPlan(floorData){
     }
   });
 
+  // ── Floor drains ─────────────────────────────────────────────────────
+  for(const dr of state.drains){
+    const DS = 10, hs = DS / 2;
+    const drSel = state.selected && state.selected.kind === 'drain' && state.selected.id === dr.id;
+    const drx = pad + (dr.x - hs) * scale;
+    const dry = pad + (dr.y - hs) * scale;
+    const drsz = DS * scale;
+    const drCx = pad + dr.x * scale;
+    const drCy = pad + dr.y * scale;
+    const drRect = mr({x:drx, y:dry, width:drsz, height:drsz}, 'drain-rect' + (drSel?' sel':''));
+    drRect.dataset.drainId = dr.id;
+    Gdrain.appendChild(drRect);
+    Gdrain.appendChild(ml({x:drx, y:drCy}, {x:drx+drsz, y:drCy}, 'drain-cross'));
+    Gdrain.appendChild(ml({x:drCx, y:dry}, {x:drCx, y:dry+drsz}, 'drain-cross'));
+    // Label ID
+    const lbl = mt(drCx, dry - 4, dr.id, 'preview-label');
+    lbl.setAttribute('font-size','8'); Gdrain.appendChild(lbl);
+    drRect.addEventListener('pointerdown', e => startDrainDrag(e, dr.id));
+    drRect.addEventListener('click', e => {
+      e.stopPropagation();
+      state.selected = {kind:'drain', id:dr.id};
+      render();
+    });
+  }
+  // Distances shown in table below plan (renderDrainThrTable) — no SVG dim lines
+
   // Outer overall dimensions — driven by current dim-style (synced with wall preview)
   drawPlanOuterDim(Gpdim, scale, pad, state.tiles.dimStyle);
+}
+
+// ── Drain & Threshold distance annotation table (read-only reference) ──
+function renderDrainThrTable(){
+  const el = $('drain-thr-table');
+  if(!el) return;
+  const r = state.room;
+  const hasDrains = state.drains && state.drains.length > 0;
+  const hasThr    = !!state.threshold;
+  if(!hasDrains && !hasThr){ el.style.display='none'; el.innerHTML=''; return; }
+
+  const mode = state.drainDimMode;
+  const isEdge = mode === 'edge';
+  const hs = 5;
+  const modeLabel = isEdge ? '邊緣距離' : '中心距離';
+
+  let rows = '';
+
+  // Drain rows
+  for(const dr of (state.drains || [])){
+    const dL = isEdge ? dr.x - hs        : dr.x;
+    const dR = isEdge ? r.length-dr.x-hs : r.length-dr.x;
+    const dT = isEdge ? dr.y - hs        : dr.y;
+    const dB = isEdge ? r.width-dr.y-hs  : r.width-dr.y;
+    const isSel = state.selected && state.selected.kind==='drain' && state.selected.id===dr.id;
+    rows += `<tr class="${isSel?'dtt-sel':''}">
+      <td class="dtt-name"><span class="dtt-icon">⊕</span> ${dr.id}</td>
+      <td>${dL} cm</td><td>${dR} cm</td><td>${dT} cm</td><td>${dB} cm</td>
+    </tr>`;
+  }
+
+  // Threshold row
+  if(hasThr){
+    const ts = state.threshold;
+    const isY = ts.axis === 'y';
+    const thrLen = isY ? r.width : r.length;
+    const d1 = ts.offset;
+    const d2 = (isY ? r.length : r.width) - ts.offset - ts.width;
+    const isSel = state.selected && state.selected.kind==='threshold';
+    const cL = isY ? d1+'&thinsp;cm' : '<span class="dtt-na">—</span>';
+    const cR = isY ? d2+'&thinsp;cm' : '<span class="dtt-na">—</span>';
+    const cT = isY ? '<span class="dtt-na">—</span>' : d1+'&thinsp;cm';
+    const cB = isY ? '<span class="dtt-na">—</span>' : d2+'&thinsp;cm';
+    rows += `<tr class="${isSel?'dtt-sel':''}">
+      <td class="dtt-name"><span class="dtt-icon">▬</span> 門檻 ${ts.width}×${thrLen}cm</td>
+      <td>${cL}</td><td>${cR}</td><td>${cT}</td><td>${cB}</td>
+    </tr>`;
+  }
+
+  el.style.display = 'block';
+  el.innerHTML = `
+  <div class="dtt-wrap">
+    <div class="dtt-header">
+      <span class="dtt-title">📐 離牆距離</span>
+      <label class="drain-dim-toggle">
+        <input type="checkbox" id="dtt-mode-toggle" ${isEdge?'':'checked'}>
+        <span class="dtt-mode-lbl">${modeLabel}</span>
+      </label>
+    </div>
+    <table class="dtt">
+      <thead><tr>
+        <th>項目</th>
+        <th>← W2</th><th>W4 →</th><th>↑ W3</th><th>↓ W1</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+  </div>`;
+
+  $('dtt-mode-toggle').addEventListener('change', e => {
+    state.drainDimMode = e.target.checked ? 'center' : 'edge';
+    render();
+  });
 }
 
 function svgPt(e){
@@ -1692,6 +1901,23 @@ document.addEventListener('pointermove', e => {
     if(op.left !== newLeft){
       op.left = newLeft;
       state.selected = {kind:'opening', id:op.id};
+      scheduleRender();
+    }
+  } else if(dragging.kind === 'drain'){
+    const dr = state.drains.find(x => x.id === dragging.drainId); if(!dr) return;
+    const r = state.room;
+    const scale = planScale();
+    const pad = 80;
+    const fx = (pt.x - pad) / scale;
+    const fy = (pt.y - pad) / scale;
+    const hs = 5;
+    let nx = Math.round(fx - dragging.grabDx);
+    let ny = Math.round(fy - dragging.grabDy);
+    nx = Math.max(hs, Math.min(r.length - hs, nx));
+    ny = Math.max(hs, Math.min(r.width  - hs, ny));
+    if(dr.x !== nx || dr.y !== ny){
+      dr.x = nx; dr.y = ny;
+      state.selected = {kind:'drain', id:dr.id};
       scheduleRender();
     }
   } else if(dragging.kind === 'threshold' && state.threshold){
@@ -1840,6 +2066,14 @@ function applyShaftDist(shaftId, side, value){
   render();
 }
 
+// Returns 1 if shaft is in a corner (one side against adjacent wall) else 2
+function shaftExposedCorners(s){
+  const wallLen = wallLengthOf(s.wall);
+  const atStart = s.offsetAlong < 1;
+  const atEnd   = (s.offsetAlong + s.lenAlong) > wallLen - 1;
+  return (atStart || atEnd) ? 1 : 2;
+}
+
 function applyWallLen(name, cm){
   if(isNaN(cm)||cm<30||cm>2000) return;
   if(name==='W1'||name==='W3') state.room.length = Math.round(cm);
@@ -1919,11 +2153,62 @@ function placeThreshold(pt, scale, pad){
   exitMode();
 }
 
+function placeDrain(pt, scale, pad){
+  const r = state.room;
+  const hs = 5;
+  let fx = (pt.x - pad) / scale;
+  let fy = (pt.y - pad) / scale;
+  if(fx < 0 || fx > r.length || fy < 0 || fy > r.width){ exitMode(); return; }
+  fx = Math.max(hs, Math.min(r.length - hs, Math.round(fx)));
+  fy = Math.max(hs, Math.min(r.width  - hs, Math.round(fy)));
+  state.oCnt = (state.oCnt || 0) + 1;
+  const id = 'DR' + state.oCnt;
+  state.drains.push({ id, x: fx, y: fy });
+  state.selected = { kind: 'drain', id };
+  exitMode();
+}
+
+function startDrainDrag(e, drainId){
+  if(state.mode !== 'edit') return;
+  const dr = state.drains.find(x => x.id === drainId); if(!dr) return;
+  e.preventDefault();
+  e.stopPropagation();
+  const pt = svgPt(e); if(!pt) return;
+  const scale = planScale();
+  const pad = 80;
+  const fx = (pt.x - pad) / scale;
+  const fy = (pt.y - pad) / scale;
+  dragging = {
+    kind: 'drain',
+    drainId,
+    grabDx: fx - dr.x,
+    grabDy: fy - dr.y,
+    startX: e.clientX, startY: e.clientY,
+    moved: false
+  };
+}
+
+function applyDrainDist(drainId, side, val){
+  if(isNaN(val) || val < 0) return;
+  const dr = state.drains.find(x => x.id === drainId); if(!dr) return;
+  const r = state.room;
+  const hs = 5;
+  const mode = state.drainDimMode;
+  let nx = dr.x, ny = dr.y;
+  if(side === 'left')   nx = mode==='edge' ? val+hs : val;
+  if(side === 'right')  nx = mode==='edge' ? r.length-val-hs : r.length-val;
+  if(side === 'top')    ny = mode==='edge' ? val+hs : val;
+  if(side === 'bottom') ny = mode==='edge' ? r.width-val-hs : r.width-val;
+  dr.x = Math.max(hs, Math.min(r.length-hs, Math.round(nx)));
+  dr.y = Math.max(hs, Math.min(r.width -hs, Math.round(ny)));
+  render();
+}
+
 function exitMode(){
   state.mode='edit'; pendingOp=null;
-  $('cv-container').classList.remove('adding-op','adding-thr');
+  $('cv-container').classList.remove('adding-op','adding-thr','adding-drain');
   $('cancel-add').style.display='none';
-  ['add-d90','add-d75','add-win','add-thr'].forEach(id=>$(id).classList.remove('active','op-mode','thr-mode'));
+  ['add-d90','add-d75','add-win','add-thr','add-drain'].forEach(id=>$(id) && $(id).classList.remove('active','op-mode','thr-mode','drain-mode'));
   render();
 }
 
@@ -1946,6 +2231,15 @@ function enterAddThr(){
   $('add-thr').classList.add('active','thr-mode');
   render();
 }
+function enterAddDrain(){
+  exitMode();
+  state.mode='addDrain';
+  state.selected=null;
+  $('cv-container').classList.add('adding-drain');
+  $('cancel-add').style.display='inline-block';
+  $('add-drain').classList.add('active','drain-mode');
+  render();
+}
 
 // ===== Edit panel =====
 function renderEditPanel(){
@@ -1957,6 +2251,38 @@ function renderEditPanel(){
     const name=state.selected.id;
     tit.textContent=name+' ('+wallLengthOf(name)+' cm)';
     body.innerHTML=`<p style="font-size:13px;color:var(--muted);margin:0">直接點 SVG 上的牆名數字編輯,或從上面「房間」設定改 ${(name==='W1'||name==='W3')?'長':'寬'}。</p>`;
+    return;
+  }
+  if(state.selected.kind==='drain'){
+    const dr = state.drains.find(x => x.id === state.selected.id);
+    if(!dr){ep.style.display='none';return;}
+    const r = state.room;
+    const hs = 5;
+    const mode = state.drainDimMode;
+    const isEdge = mode === 'edge';
+    tit.textContent = '方形地排 10×10 cm — ' + dr.id;
+    body.innerHTML = `
+      <div class="row" style="margin-top:4px">
+        <label>中心 X <input id="dr-x" type="number" value="${dr.x}"/> cm</label>
+        <label>中心 Y <input id="dr-y" type="number" value="${dr.y}"/> cm</label>
+      </div>
+      <div class="actions-row">
+        <button class="del" id="drain-del">移除地排</button>
+      </div>
+    `;
+    $('drain-del').onclick = () => {
+      state.drains = state.drains.filter(x => x.id !== dr.id);
+      state.selected = null;
+      render();
+    };
+    ['dr-x','dr-y'].forEach(id => {
+      $(id) && $(id).addEventListener('input', () => {
+        const nx = +$('dr-x').value, ny = +$('dr-y').value;
+        if(!isNaN(nx)) dr.x = Math.max(hs, Math.min(r.length-hs, Math.round(nx)));
+        if(!isNaN(ny)) dr.y = Math.max(hs, Math.min(r.width-hs,  Math.round(ny)));
+        render({skipEditPanel:true});
+      });
+    });
     return;
   }
   if(state.selected.kind==='threshold'){
@@ -2299,8 +2625,18 @@ function renderTilePreview(){
         const ox1 = Math.max(o.left, fromX);
         const ox2 = Math.min(o.left + o.width, fromX + segLen);
         if(ox1 >= ox2) return;
-        svgW.appendChild(mr({x: ox + (ox1-fromX)*scaleW, y: pad + (fullH-o.bottom-o.height)*scaleW,
-                             width: (ox2-ox1)*scaleW, height: o.height*scaleW}, 'preview-opening'));
+        const rx = ox + (ox1-fromX)*scaleW;
+        const ry = pad + (fullH-o.bottom-o.height)*scaleW;
+        const rw = (ox2-ox1)*scaleW;
+        const rh = o.height*scaleW;
+        // Extend fill 3px beyond opening bounds to fully cover adjacent tile stroke lines
+        svgW.appendChild(mr({x:rx, y:ry-3, width:rw, height:rh+6, fill:'var(--bg2)', stroke:'none'}));
+        // Small type label at center — no border lines at all
+        const labelText = o.type === 'door' ? '門' : '窗';
+        const lbl = mt(rx+rw/2, ry+rh/2, labelText, 'preview-label');
+        lbl.setAttribute('font-size', Math.max(7, Math.min(11, Math.min(rw,rh)*0.3)));
+        lbl.setAttribute('opacity', '0.5');
+        svgW.appendChild(lbl);
       });
     }
     // Label above every segment so users can match wall preview to plan view:
@@ -2332,7 +2668,7 @@ function renderTilePreview(){
   const thr=thresholdRect();
   const fHoles = thr ? [thr] : [];
   for(const s of state.shafts) fHoles.push(shaftFloorRect(s));
-  const floorTiles=buildTiles(r.length, r.width, state.tiles.floorW, state.tiles.floorH, grout(), 1, fHoles, state.tiles.floorBondMode, state.tiles.floorOffset.x, state.tiles.floorOffset.y);
+  const floorTiles=buildTiles(r.length, r.width, state.tiles.floorW, state.tiles.floorH, groutF(), 1, fHoles, state.tiles.floorBondMode, state.tiles.floorOffset.x, state.tiles.floorOffset.y);
   const floorCuts0 = floorTiles.filter(t => !t.full);
   const floorPairResult = pairCutTiles(floorCuts0, state.tiles.floorW, state.tiles.floorH);
 
@@ -2487,6 +2823,27 @@ function renderUnfolded(allTiles){
     svg.appendChild(lbl);
   }
 
+  // ---------- FLOOR DRAINS ----------
+  for(const dr of (state.drains || [])){
+    const DS = 10, hs = DS / 2;
+    const drUx = H + dr.x - hs;  // top-left in unfolded cm coords
+    const drUy = H + dr.y - hs;
+    const drPx = ox + drUx * scale;
+    const drPy = oy + drUy * scale;
+    const drSz = DS * scale;
+    const drCpx = drPx + drSz / 2;
+    const drCpy = drPy + drSz / 2;
+    // Square
+    svg.appendChild(mr({x:drPx, y:drPy, width:drSz, height:drSz}, 'uf-drain-rect'));
+    // Cross
+    svg.appendChild(ml({x:drPx, y:drCpy}, {x:drPx+drSz, y:drCpy}, 'uf-drain-cross'));
+    svg.appendChild(ml({x:drCpx, y:drPy}, {x:drCpx, y:drPy+drSz}, 'uf-drain-cross'));
+    // Label ID
+    const dlbl = mt(drCpx, drPy - 3, dr.id, 'uf-drain-label');
+    dlbl.setAttribute('font-size', 7);
+    svg.appendChild(dlbl);
+  }
+
   // ---------- OUTLINES (last → on top) ----------
   svg.appendChild(cmRect(H, H + W, L, H, 'uf-wall-bound'));   // W1
   svg.appendChild(cmRect(H, 0, L, H, 'uf-wall-bound'));       // W3
@@ -2571,6 +2928,14 @@ function updateStats(allTiles){
   $('s-f-buy-sub').textContent = buySubText(floorSavings, isOpt);
   $('s-f-area').textContent = floorArea.toFixed(2);
   $('s-f-pin').textContent = (floorArea / 3.30579).toFixed(2);
+  // ── Room dimension stats (perimeter, heights) ─────────────────────────
+  const perimeter = 2 * (r.length + r.width);
+  const roomFloorArea = (r.length * r.width) / 10000;
+  if($('s-room-size'))       $('s-room-size').textContent       = `${r.length}×${r.width}`;
+  if($('s-perimeter'))       $('s-perimeter').textContent       = perimeter;
+  if($('s-wall-h'))          $('s-wall-h').textContent          = r.wallHeight;
+  if($('s-install-h'))       $('s-install-h').textContent       = r.installHeight;
+  if($('s-floor-area-room')) $('s-floor-area-room').textContent = roomFloorArea.toFixed(2);
   // per-preview inline
   const ws=$('walls-stats'), fs=$('floor-stats');
   if(ws) ws.innerHTML = `<span>全片<strong>${wFull}</strong></span><span>裁切<strong>${wCut}</strong></span><span>估購<strong>${wBuy}</strong></span><span>${wallArea.toFixed(2)} m²</span>`;
@@ -2578,14 +2943,134 @@ function updateStats(allTiles){
 }
 
 // ===== Master render =====
+function renderMaterialSummary(allStats){
+  // allStats = { wFull, wCut, wBuy, wallArea, fFull, fCut, fBuy, floorArea } from updateStats
+  const trimEl = $('trim-calc-section');
+  const el = $('material-summary');
+  if(trimEl) trimEl.style.display = 'none'; // legacy, replaced by this
+  if(!el) return;
+
+  const r = state.room;
+  const H = r.installHeight;
+  const STRIP = state.trimStripLen || 240;
+  const mat = state.materials || {};
+  const windows = (state.openings || []).filter(o => o.type === 'window');
+  const shafts  = state.shafts || [];
+  const hasTrim = windows.length > 0 || shafts.length > 0;
+  const hasThr  = !!state.threshold;
+
+  // Pull tile stats from DOM (updateStats already ran)
+  const wBuy  = ($('s-w-buy') || {}).textContent  || '—';
+  const wSub  = ($('s-w-buy-sub') || {}).textContent || '';
+  const fBuy  = ($('s-f-buy') || {}).textContent  || '—';
+  const fSub  = ($('s-f-buy-sub') || {}).textContent || '';
+  const wArea = ($('s-w-area') || {}).textContent || '—';
+  const fArea = ($('s-f-area') || {}).textContent || '—';
+
+  // ── Trim strip rows ──────────────────────────────────────────────────
+  let trimRows = '', trimTotal = 0;
+  for(const w of windows){
+    const lenW = w.width * 2, lenH = w.height * 2, tot = lenW + lenH;
+    const qty = Math.ceil(tot / STRIP);
+    trimTotal += qty;
+    trimRows += `<div class="msm-row">
+      <span class="msm-label">窗 ${w.wall}</span>
+      <span class="msm-model" style="font-size:11px;font-weight:400">寬${w.width}×2&nbsp;+&nbsp;高${w.height}×2&nbsp;=&nbsp;${tot}&thinsp;cm</span>
+      <span class="msm-qty"><span class="msm-bold">${qty}</span> 條</span>
+    </div>`;
+  }
+  for(const s of shafts){
+    const corners = shaftExposedCorners(s);
+    const tot = corners * H;
+    const qty = Math.ceil(tot / STRIP);
+    trimTotal += qty;
+    const cornerNote = corners === 1 ? '雙面貼牆 ×1' : '×2 轉角';
+    trimRows += `<div class="msm-row">
+      <span class="msm-label">管道間 ${s.wall}</span>
+      <span class="msm-model" style="font-size:11px;font-weight:400">高${H}&thinsp;cm&nbsp;${cornerNote}&nbsp;=&nbsp;${tot}&thinsp;cm</span>
+      <span class="msm-qty"><span class="msm-bold">${qty}</span> 條</span>
+    </div>`;
+  }
+
+  // ── Threshold rows ───────────────────────────────────────────────────
+  let thrRows = '', thrTotal = 0;
+  if(hasThr){
+    const t = state.threshold;
+    const thrLen = t.axis==='y' ? r.width : r.length;
+    const qty = Math.ceil(t.width / STRIP) || 1;
+    thrTotal += qty;
+    thrRows = `<div class="msm-row">
+      <span class="msm-label">門檻</span>
+      <span class="msm-model" style="font-size:11px;font-weight:400">${t.width}×${thrLen}&thinsp;cm</span>
+      <span class="msm-qty"><span class="msm-bold">${qty}</span> 條</span>
+    </div>`;
+  }
+
+  // ── Assemble HTML ────────────────────────────────────────────────────
+  const locLabel = mat.location ? `— ${mat.location}` : '';
+  const stripInput = `<input id="msm-strip-len" type="number" min="60" max="600" step="10"
+    value="${STRIP}" style="width:42px;padding:1px 4px;border:1px solid var(--line2,#ccc);
+    border-radius:3px;font-size:11px;text-align:center;background:var(--bg);color:var(--fg)">`;
+
+  el.style.display = 'block';
+  el.innerHTML = `<div class="msm-wrap">
+    <div class="msm-head">
+      <span class="msm-loc">📦 物料統計 ${locLabel}</span>
+    </div>
+
+    <div class="msm-section-title">磁磚 &amp; 填縫劑</div>
+    <div class="msm-row">
+      <span class="msm-label">牆磚</span>
+      <span class="msm-model">${mat.wallTileModel||'<span style="color:var(--muted);font-style:italic">未填型號</span>'}</span>
+      <span class="msm-qty">估購 <span class="msm-bold">${wBuy}</span> ${wSub} &nbsp;|&nbsp; ${wArea} m²</span>
+    </div>
+    <div class="msm-row">
+      <span class="msm-label">牆填縫劑</span>
+      <span class="msm-model">${mat.groutWallModel||'<span style="color:var(--muted);font-style:italic">未填型號</span>'}</span>
+      <span class="msm-qty"></span>
+    </div>
+    <div class="msm-row">
+      <span class="msm-label">地磚</span>
+      <span class="msm-model">${mat.floorTileModel||'<span style="color:var(--muted);font-style:italic">未填型號</span>'}</span>
+      <span class="msm-qty">估購 <span class="msm-bold">${fBuy}</span> ${fSub} &nbsp;|&nbsp; ${fArea} m²</span>
+    </div>
+    <div class="msm-row">
+      <span class="msm-label">地填縫劑</span>
+      <span class="msm-model">${mat.groutFloorModel||'<span style="color:var(--muted);font-style:italic">未填型號</span>'}</span>
+      <span class="msm-qty"></span>
+    </div>
+
+    ${hasTrim ? `
+    <div class="msm-section-title">轉角收邊條 &nbsp;<small style="font-weight:400;color:var(--muted)">每條 ${stripInput} cm</small></div>
+    ${trimRows}
+    <div class="msm-total-row"><span>收邊條小計</span><span><span class="msm-bold">${trimTotal}</span> 條</span></div>
+    ` : ''}
+
+    ${hasThr ? `
+    <div class="msm-section-title">門檻</div>
+    ${thrRows}
+    ` : ''}
+  </div>`;
+
+  // Strip length input handler
+  const si = $('msm-strip-len');
+  if(si) si.addEventListener('change', e => {
+    const v = +e.target.value;
+    if(v >= 60){ state.trimStripLen = v; render(); }
+  });
+}
+
+function renderTrimCalc(){ /* replaced by renderMaterialSummary */ }
+
 function render(opts){
   opts = opts || {};
   if(!opts.skipEditPanel) renderEditPanel();
-  // renderTilePreview computes floor data (without drawing); renderPlan draws floor in plan SVG
   const all = renderTilePreview();
   renderPlan({floorTiles: all.floorTiles, floorPair: all.floorPair});
   renderUnfolded(all);
   updateStats(all);
+  renderDrainThrTable();
+  renderMaterialSummary();
 }
 
 // ===== Settings sync =====
@@ -2599,7 +3084,9 @@ function readSettings(){
   state.tiles.wallH = mmToCm($('twh').value) || 30;
   state.tiles.floorW = mmToCm($('tfw').value) || 30;
   state.tiles.floorH = mmToCm($('tfh').value) || 30;
-  state.tiles.groutMm = +$('grt').value || 0;
+  state.tiles.groutMm      = +$('grt-wall').value  || 0;
+  state.tiles.groutWallMm  = +$('grt-wall').value  || 0;
+  state.tiles.groutFloorMm = +$('grt-floor').value || 0;
   if(typeof syncOffsetMax === 'function') syncOffsetMax();
   if(typeof syncFloorOffsetMax === 'function') syncFloorOffsetMax();
   for(const o of state.openings){
@@ -2623,7 +3110,7 @@ function readSettings(){
   }
   render();
 }
-['rl','rw','rh','ih','tww','twh','tfw','tfh','grt'].forEach(id=>{
+['rl','rw','rh','ih','tww','twh','tfw','tfh','grt-wall','grt-floor'].forEach(id=>{
   $(id).addEventListener('input', readSettings);
 });
 
@@ -2648,6 +3135,27 @@ $('add-thr').onclick=()=>{
   state.selected={kind:'threshold'};
   render();
 };
+$('add-drain').onclick=()=>{
+  if(state.mode==='addDrain') exitMode();
+  else enterAddDrain();
+};
+
+// Material model inputs → state.materials
+['mat-wall-tile','mat-floor-tile','mat-wall-grout','mat-floor-grout','mat-location'].forEach(id => {
+  const el = $(id); if(!el) return;
+  const key = {
+    'mat-wall-tile':   'wallTileModel',
+    'mat-floor-tile':  'floorTileModel',
+    'mat-wall-grout':  'groutWallModel',
+    'mat-floor-grout': 'groutFloorModel',
+    'mat-location':    'location'
+  }[id];
+  el.addEventListener('input', () => {
+    if(!state.materials) state.materials = {};
+    state.materials[key] = el.value.trim();
+    renderMaterialSummary();
+  });
+});
 $('add-shaft').onclick=()=>{
   const s = ensureShaftDefault();
   state.selected={kind:'shaft', id:s.id};
@@ -2684,7 +3192,15 @@ $('fi').onchange=e=>{
         $('rh').value=state.room.wallHeight; $('ih').value=state.room.installHeight;
         $('tww').value=cmToMm(state.tiles.wallW); $('twh').value=cmToMm(state.tiles.wallH);
         $('tfw').value=cmToMm(state.tiles.floorW); $('tfh').value=cmToMm(state.tiles.floorH);
-        $('grt').value=state.tiles.groutMm;
+        $('grt-wall').value  = state.tiles.groutWallMm  || state.tiles.groutMm || 3;
+        $('grt-floor').value = state.tiles.groutFloorMm || state.tiles.groutMm || 3;
+        // Sync material model inputs
+        const mat = state.materials || {};
+        if($('mat-wall-tile'))   $('mat-wall-tile').value   = mat.wallTileModel   || '';
+        if($('mat-floor-tile'))  $('mat-floor-tile').value  = mat.floorTileModel  || '';
+        if($('mat-wall-grout'))  $('mat-wall-grout').value  = mat.groutWallModel  || '';
+        if($('mat-floor-grout')) $('mat-floor-grout').value = mat.groutFloorModel || '';
+        if($('mat-location'))    $('mat-location').value    = mat.location        || '';
         // migrate offsetX
         if(typeof state.tiles.offsetX === 'number'){
           const v = state.tiles.offsetX;
@@ -3621,11 +4137,12 @@ async function exportPDF(){
       container.id = 'print-area';
       const ts = new Date().toLocaleString('zh-TW');
       const stats = getExportStatsData();
+      const mat = state.materials || {};
       const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
       const cellHtml = c => `<div class="cell"><div class="lbl">${esc(c.label)}</div><div class="val">${esc(c.value)}<span class="unit">${esc(c.unit)}</span></div></div>`;
       const rowCells = row => `${cellHtml(row.full)}${cellHtml(row.cut)}${cellHtml(row.buy)}${cellHtml(row.area)}`;
       const proj = getProjectInfo();
-      const specHtml = `房間 ${r.length}×${r.width} cm · 牆高 ${r.wallHeight} cm · 安裝高 ${r.installHeight} cm　|　牆磚 ${cmToMm(t.wallW)}×${cmToMm(t.wallH)} mm · 地磚 ${cmToMm(t.floorW)}×${cmToMm(t.floorH)} mm · 縫 ${t.groutMm} mm`;
+      const specHtml = `${r.length}×${r.width}&thinsp;cm · 周長&thinsp;${2*(r.length+r.width)}&thinsp;cm · 牆高&thinsp;${r.wallHeight}&thinsp;cm · 鋪磚高&thinsp;${r.installHeight}&thinsp;cm${mat.location ? '　|　' + esc(mat.location) : ''}　|　牆磚&thinsp;${cmToMm(t.wallW)}×${cmToMm(t.wallH)}&thinsp;mm&thinsp;縫&thinsp;${t.groutWallMm||t.groutMm||3}&thinsp;mm · 地磚&thinsp;${cmToMm(t.floorW)}×${cmToMm(t.floorH)}&thinsp;mm&thinsp;縫&thinsp;${t.groutFloorMm||t.groutMm||3}&thinsp;mm`;
       const projHtml = (proj.name || proj.addr)
         ? `<p class="proj-line">${proj.name ? `<span class="proj-name">${esc(proj.name)}</span>` : ''}${proj.name && proj.addr ? '<span class="sep"> · </span>' : ''}${proj.addr ? `<span class="proj-addr">${esc(proj.addr)}</span>` : ''}</p>`
         : '';
@@ -3642,29 +4159,95 @@ async function exportPDF(){
         <hr class="kami-rule">`;
       const footerHtml = '';
 
+      // ── Shared data ────────────────────────────────────────────────────
+      const H2  = r.installHeight;
+      const STRIP2 = state.trimStripLen || 240;
+      const perimeter2 = 2 * (r.length + r.width);
+      const wins2   = (state.openings || []).filter(o => o.type === 'window');
+      const shafts2 = state.shafts || [];
+      const hasThr2 = !!state.threshold;
+      const esc2 = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+      // Trim totals (compact summary)
+      let trimTotal2 = 0, trimParts2 = [];
+      for(const w of wins2){
+        const qty = Math.ceil((w.width*2 + w.height*2) / STRIP2);
+        trimTotal2 += qty;
+        trimParts2.push(`窗${w.wall} ${qty}條`);
+      }
+      for(const s of shafts2){
+        const qty = Math.ceil(shaftExposedCorners(s) * H2 / STRIP2);
+        trimTotal2 += qty;
+        trimParts2.push(`管道間${s.wall} ${qty}條`);
+      }
+      let thrSummary = '';
+      if(hasThr2){
+        const thr = state.threshold;
+        const thrLen2 = thr.axis==='y' ? r.width : r.length;
+        const qty = Math.ceil(thr.width / STRIP2) || 1;
+        thrSummary = `門檻 ${thr.width}×${thrLen2}cm × ${qty}條`;
+      }
+
+      // Row builder: label+model | full | cut | buy | area
+      const mk = (label, model, full, cut, buy, buyUnit, area, groutModel) => {
+        const modelTxt  = model      ? `<span class="pm-model">${esc2(model)}</span>`      : '';
+        const groutTxt2 = groutModel ? `<span class="pm-grout">填縫劑&thinsp;${esc2(groutModel)}</span>` : '';
+        return `<tr class="pm-row">
+          <td class="pm-item">${esc2(label)}${modelTxt}${groutTxt2}</td>
+          <td class="pm-num">${full}<span class="pm-unit">片</span></td>
+          <td class="pm-num">${cut}<span class="pm-unit">片</span></td>
+          <td class="pm-num pm-buy">${buy}<span class="pm-unit">${esc2(buyUnit)}</span></td>
+          <td class="pm-num">${area}<span class="pm-unit">m²</span></td>
+        </tr>`;
+      };
+
+      // Trim + threshold summary row (grout now shown inline in tile rows above)
+      const trimTxt   = trimTotal2 > 0
+        ? `收邊條&nbsp;<strong>${trimTotal2}&thinsp;條</strong>&nbsp;<span class="pm-muted">(${trimParts2.join('、')}，每條${STRIP2}cm)</span>`
+        : '';
+      const thrTxt    = thrSummary ? `${esc2(thrSummary)}` : '';
+      const auxLine   = [trimTxt, thrTxt].filter(Boolean).join('　|　');
+
+      // Compact spec for page 2 header
+      const specLine2 = `${r.length}×${r.width}cm · 周長${perimeter2}cm · 牆高${r.wallHeight}cm · 鋪磚高${H2}cm`;
+
+      // ── Page 1: Header + Stats + Plan + Wall tiles ────────────────────
       container.innerHTML = `
         <div class="print-page">
           ${headerHtml}
-          <div class="print-metrics">
-            <div class="row-label">牆面磁磚</div>
-            ${rowCells(stats.wall)}
-            <div class="row-label">地板磁磚</div>
-            ${rowCells(stats.floor)}
-          </div>
+          <table class="pm-tbl">
+            <thead><tr>
+              <th class="pm-item">項目</th>
+              <th class="pm-num">全片</th>
+              <th class="pm-num">裁切</th>
+              <th class="pm-num pm-buy">估購</th>
+              <th class="pm-num">鋪貼面積</th>
+            </tr></thead>
+            <tbody>
+              ${mk('牆磚', mat.wallTileModel, stats.wall.full.value, stats.wall.cut.value, stats.wall.buy.value, stats.wall.buy.unit, stats.wall.area.value, mat.groutWallModel)}
+              ${mk('地磚', mat.floorTileModel, stats.floor.full.value, stats.floor.cut.value, stats.floor.buy.value, stats.floor.buy.unit, stats.floor.area.value, mat.groutFloorModel)}
+              ${auxLine ? `<tr class="pm-aux"><td colspan="5">${auxLine}</td></tr>` : ''}
+            </tbody>
+          </table>
           <div class="print-body">
             <div class="print-section" data-slot="plan-1">
-              <span class="tag"><span class="num">A-01</span> · Plan · 平面圖</span>
+              <span class="tag"><span class="num">A-01</span> · Plan</span>
             </div>
             <div class="print-section" data-slot="walls">
-              <span class="tag"><span class="num">A-02</span> · Wall Tiles · 牆面磁磚</span>
+              <span class="tag"><span class="num">A-02</span> · Wall Tiles</span>
             </div>
           </div>
-          ${footerHtml}
         </div>
+
         <div class="print-page print-page--full">
+          <div class="print-page2-header">
+            <span class="p2-title">紙盒展開</span>
+            <span class="p2-spec">${specLine2}</span>
+            <span class="p2-meta">${esc(ts)}</span>
+          </div>
           <div class="print-body">
             <div class="print-section" data-slot="unfolded">
-              <span class="tag"><span class="num">A-03</span> · Unfolded · 紙盒展開</span>
+              <span class="tag"><span class="num">A-03</span> · Unfolded</span>
             </div>
           </div>
         </div>
