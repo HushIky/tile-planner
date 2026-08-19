@@ -211,6 +211,61 @@ function renderEditPanel(){
 }
 
 // ===== Tile preview rendering =====
+function formatTileEdgeMm(cm){
+  const mm = cmToMm(cm);
+  return (Number.isInteger(mm) ? String(mm) : mm.toFixed(1)) + ' mm';
+}
+
+// Add a hover target to a rendered tile piece and show the length of every
+// visible edge. The labels live in a temporary top-level group so they stay
+// readable above neighbouring tiles, openings, outlines, and tile numbers.
+function bindTileEdgeHover(svg, rect, x, y, w, h, edgeWcm, edgeHcm){
+  rect.classList.add('tile-hover-target');
+  rect.setAttribute('aria-label', `砖块，上下边 ${formatTileEdgeMm(edgeWcm)}，左右边 ${formatTileEdgeMm(edgeHcm)}`);
+
+  let overlay = null;
+  function removeOverlay(){
+    if(overlay){ overlay.remove(); overlay = null; }
+    rect.classList.remove('tile-hover-active');
+  }
+  function addLabel(group, lx, ly, value, rotate){
+    const label = mt(lx, ly, value, 'tile-edge-hover-label');
+    if(rotate) label.setAttribute('transform', `rotate(${rotate}, ${lx}, ${ly})`);
+    group.appendChild(label);
+  }
+  function showOverlay(){
+    const old = svg.querySelector('.tile-edge-hover-overlay');
+    if(old) old.remove();
+    overlay = document.createElementNS(NS, 'g');
+    overlay.setAttribute('class', 'tile-edge-hover-overlay');
+
+    const highlight = mr({x, y, width:w, height:h}, 'tile-edge-hover-outline');
+    overlay.appendChild(highlight);
+
+    const vb = svg.viewBox && svg.viewBox.baseVal;
+    const vbW = vb && vb.width ? vb.width : Infinity;
+    const vbH = vb && vb.height ? vb.height : Infinity;
+    const inset = 7;
+    const topY = y >= 14 ? y - inset : y + inset;
+    const bottomY = y + h <= vbH - 14 ? y + h + inset : y + h - inset;
+    const leftX = x >= 14 ? x - inset : x + inset;
+    const rightX = x + w <= vbW - 14 ? x + w + inset : x + w - inset;
+    const horizontal = formatTileEdgeMm(edgeWcm);
+    const vertical = formatTileEdgeMm(edgeHcm);
+
+    addLabel(overlay, x + w/2, topY, horizontal, 0);
+    addLabel(overlay, x + w/2, bottomY, horizontal, 0);
+    addLabel(overlay, leftX, y + h/2, vertical, -90);
+    addLabel(overlay, rightX, y + h/2, vertical, -90);
+
+    svg.appendChild(overlay);
+    rect.classList.add('tile-hover-active');
+  }
+
+  rect.addEventListener('pointerenter', showOverlay);
+  rect.addEventListener('pointerleave', removeOverlay);
+}
+
 function renderTilePreview(){
   // walls preview: 4 walls side by side
   const svgW=$('tile-walls');
@@ -355,7 +410,13 @@ function renderTilePreview(){
       for(const p of t.pieces){
         const py = (fullH - p.y - p.h)*scaleW;
         const cls = 'tile'+(t.full?'':' cut')+(isShaftFace ? ' shaft' : '');
-        svgW.appendChild(mr({x:ox+p.x*scaleW, y:pad+py, width:p.w*scaleW, height:p.h*scaleW}, cls));
+        const rx = ox+p.x*scaleW;
+        const ry = pad+py;
+        const rw = p.w*scaleW;
+        const rh = p.h*scaleW;
+        const tileRect = mr({x:rx, y:ry, width:rw, height:rh}, cls);
+        bindTileEdgeHover(svgW, tileRect, rx, ry, rw, rh, p.w, p.h);
+        svgW.appendChild(tileRect);
       }
       if(t.pieces.length && state.tiles.showTileNumbers){
         const main = t.pieces.reduce((a,p) => p.w*p.h > a.w*a.h ? p : a);
@@ -485,7 +546,9 @@ function renderUnfolded(allTiles){
   // Generic tile + number drawer
   function drawTileWithNum(tile, uX, uY, uW, uH, isFloor){
     const cls = (isFloor ? 'uf-floor' : 'uf-wall') + (tile.full ? '' : ' cut');
-    svg.appendChild(cmRect(uX, uY, uW, uH, cls));
+    const tileRect = cmRect(uX, uY, uW, uH, cls);
+    bindTileEdgeHover(svg, tileRect, ox + uX*scale, oy + uY*scale, uW*scale, uH*scale, uW, uH);
+    svg.appendChild(tileRect);
     // Number text — sized based on rendered tile dimensions
     const minPx = Math.min(uW, uH) * scale;
     const fs = Math.max(4, Math.min(8, minPx * 0.32));
@@ -517,7 +580,9 @@ function renderUnfolded(allTiles){
         for(const p of t.pieces){
           const u = tx(p.x + fromX, p.y, p.w, p.h);
           const cls = (t.full ? 'uf-wall' : 'uf-wall cut') + (isShaftFace ? ' shaft' : '');
-          svg.appendChild(cmRect(u.x, u.y, u.w, u.h, cls));
+          const tileRect = cmRect(u.x, u.y, u.w, u.h, cls);
+          bindTileEdgeHover(svg, tileRect, ox + u.x*scale, oy + u.y*scale, u.w*scale, u.h*scale, u.w, u.h);
+          svg.appendChild(tileRect);
           // Number text — same sizing logic as drawTileWithNum
           const minPx = Math.min(u.w, u.h) * scale;
           const fs = Math.max(4, Math.min(8, minPx * 0.32));

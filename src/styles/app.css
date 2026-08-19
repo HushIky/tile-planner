@@ -97,6 +97,11 @@ body.dragging .oh,body.dragging .thr-rect{cursor:grabbing}
 .ftile{fill:var(--floor-fill);stroke:var(--tile-line);stroke-width:.4}
 .ftile.cut{fill:var(--floor-cut)}
 .tile-num{font-size:8px;fill:var(--muted);pointer-events:none;user-select:none;text-anchor:middle;dominant-baseline:middle}
+.tile-hover-target{pointer-events:all!important;cursor:help;transition:filter .12s}
+.tile-hover-target.tile-hover-active{filter:brightness(1.08)}
+.tile-edge-hover-overlay{pointer-events:none}
+.tile-edge-hover-outline{fill:none;stroke:var(--info);stroke-width:1.8;vector-effect:non-scaling-stroke}
+.tile-edge-hover-label{font-size:9px;font-weight:700;fill:var(--fg);stroke:var(--card);stroke-width:4px;paint-order:stroke fill;text-anchor:middle;dominant-baseline:middle;pointer-events:none;user-select:none;font-variant-numeric:tabular-nums}
 .preview-opening{fill:var(--bg2);stroke:var(--info);stroke-width:1.2;stroke-dasharray:4 3}
 .preview-opening-edge{stroke:var(--info);stroke-width:1.2;stroke-dasharray:4 3;fill:none}
 .drain-rect{fill:var(--bg3,#d8d8d0);stroke:var(--fg);stroke-width:1.5;cursor:grab;touch-action:none}
