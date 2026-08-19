@@ -1,0 +1,86 @@
+/* Print and PDF-only layout. */
+/* ===== Print / PDF export (kami design) ===== */
+#print-area{display:none}
+@media print{
+  body *{visibility:hidden}
+  #print-area,#print-area *{visibility:visible}
+  #print-area{
+    display:block;
+    position:absolute;
+    left:0;top:0;
+    width:100%;
+    background:#f5f4ed;
+    color:#141413;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Microsoft JhengHei","Noto Sans TC","Microsoft YaHei",Arial,sans-serif;
+    padding:0;
+    margin:0;
+    font-weight:500;
+  }
+  #print-area .print-header{margin-bottom:3mm;display:grid;grid-template-columns:1fr auto;align-items:start;gap:8mm;page-break-after:avoid}
+  #print-area .print-header .title-wrap{border-left:.9mm solid #1B365D;padding-left:3mm}
+  #print-area .print-header h1{font-size:15pt;font-weight:500;margin:0;color:#141413;letter-spacing:.02em;line-height:1.1}
+  #print-area .print-header .subtitle{font-size:8.5pt;font-weight:600;color:#1B365D;margin:.6mm 0 0;letter-spacing:.12em;text-transform:uppercase}
+  #print-area .print-header .proj-line{font-size:9.5pt;font-weight:500;margin:1.5mm 0 0;color:#141413;line-height:1.35}
+  #print-area .print-header .proj-line .sep{color:#b8b7b0;margin:0 1mm}
+  #print-area .print-header .proj-line .proj-addr{color:#504e49;font-weight:400}
+  #print-area .print-header .spec{font-size:8.5pt;margin:1mm 0 0;color:#504e49;font-weight:400;line-height:1.45}
+  #print-area .print-header .print-meta{color:#6b6a64;font-size:8pt;font-weight:400;text-align:right;white-space:nowrap}
+  #print-area hr.kami-rule{border:none;border-top:.25pt solid #e8e6dc;margin:2mm 0 3mm;page-break-after:avoid}
+  #print-area .print-metrics{display:grid;grid-template-columns:auto repeat(4,1fr);gap:1.5mm;margin:0 0 3mm;align-items:stretch;page-break-inside:avoid;page-break-after:avoid}
+  #print-area .print-metrics .row-label{font-size:9pt;font-weight:500;color:#141413;align-self:center;padding-right:2mm}
+  #print-area .print-metrics .cell{background:#faf9f5;border:.3pt solid #e8e6dc;border-radius:1.5mm;padding:1mm 2mm;display:flex;flex-direction:column;justify-content:center;min-height:8mm}
+  #print-area .print-metrics .cell .lbl{font-size:6.5pt;font-weight:600;color:#504e49;letter-spacing:.04em}
+  #print-area .print-metrics .cell .val{font-size:10.5pt;font-weight:500;color:#1B365D;font-variant-numeric:tabular-nums;line-height:1.05;margin-top:.4mm}
+  #print-area .print-metrics .cell .unit{font-size:7.5pt;font-weight:400;color:#504e49;margin-left:1.2mm}
+  #print-area .print-body{display:grid;grid-template-columns:1fr 2fr;gap:5mm;align-items:flex-start;page-break-inside:avoid;page-break-before:avoid}
+  #print-area .print-section{min-width:0;page-break-inside:avoid;background:transparent;border:.35pt solid #6b6a64;border-radius:0;padding:2.5mm 3mm 2.5mm 3mm;position:relative}
+  #print-area .print-section .tag{display:inline-flex;align-items:center;gap:2mm;background:transparent;color:#3d3d3a;font-family:"JetBrains Mono","SF Mono",Consolas,"Microsoft JhengHei",monospace;font-size:7pt;font-weight:500;padding:.4mm 1.8mm;border:.3pt solid #6b6a64;border-radius:0;letter-spacing:.12em;margin-bottom:2mm;text-transform:uppercase}
+  #print-area .print-section .tag .num{color:#1B365D;font-weight:600}
+  #print-area .print-section svg{display:block;width:100% !important;height:auto !important;max-height:118mm}
+  #print-area .print-footer{margin-top:2mm;display:flex;justify-content:flex-end;font-size:7pt;color:#6b6a64;font-weight:400;font-family:"JetBrains Mono","SF Mono",Consolas,"Microsoft JhengHei",monospace;letter-spacing:.08em;page-break-before:avoid}
+  #print-area .print-page{page-break-after:always;page-break-inside:avoid;break-inside:avoid;max-height:190mm;overflow:hidden}
+  #print-area .print-page:last-child{page-break-after:auto}
+  #print-area .print-page--full .print-body{grid-template-columns:1fr}
+  #print-area .print-page--full .print-section{height:185mm;display:flex;flex-direction:column;justify-content:center;align-items:stretch}
+  #print-area .print-page--full .print-section svg{max-height:178mm;width:auto;max-width:100%;height:auto;margin:0 auto}
+  /* ── Compact metrics table (replaces print-metrics + print-room-metrics) ── */
+  #print-area .pm-tbl{width:100%;border-collapse:collapse;margin:0 0 3mm;font-size:9.5pt}
+  #print-area .pm-tbl thead th{font-size:7pt;font-weight:600;color:#504e49;letter-spacing:.05em;text-align:right;padding:1mm 2mm;border-bottom:.5pt solid #c8c6bc}
+  #print-area .pm-tbl thead th.pm-item{text-align:left}
+  #print-area .pm-tbl .pm-row td{padding:1.8mm 2mm;border-bottom:.25pt solid #eeede6;vertical-align:baseline}
+  #print-area .pm-tbl .pm-item{text-align:left;font-weight:500;color:#141413}
+  #print-area .pm-tbl .pm-model{display:block;font-size:7.5pt;font-weight:400;color:#1B365D;margin-top:.5mm;letter-spacing:.02em}
+  #print-area .pm-tbl .pm-grout{display:block;font-size:7pt;font-weight:400;color:#504e49;margin-top:.3mm}
+  #print-area .pm-tbl .pm-num{text-align:right;font-variant-numeric:tabular-nums;color:#141413}
+  #print-area .pm-tbl .pm-buy{font-weight:600;color:#1B365D}
+  #print-area .pm-tbl .pm-unit{font-size:7pt;font-weight:400;color:#504e49;margin-left:.8mm}
+  #print-area .pm-tbl .pm-aux td{font-size:8pt;color:#3d3d3a;padding:1.5mm 2mm;background:#faf9f5;border-top:.35pt solid #e8e6dc;line-height:1.6}
+  #print-area .pm-tbl .pm-muted{color:#6b6a64;font-size:7.5pt}
+  /* ── Page 2 minimal header ── */
+  #print-area .print-page2-header{display:flex;align-items:baseline;gap:4mm;margin-bottom:2mm}
+  #print-area .p2-title{font-size:11pt;font-weight:500;color:#141413}
+  #print-area .p2-spec{font-size:8pt;color:#504e49;flex:1}
+  #print-area .p2-meta{font-size:7.5pt;color:#6b6a64;font-family:"JetBrains Mono","SF Mono",Consolas,monospace}
+  /* ── Materials summary page ── */
+  #print-area .mat-sum-page{max-height:none}
+  #print-area .mat-sum-body{display:grid;grid-template-columns:1fr 1.6fr;gap:6mm;margin-top:3mm}
+  #print-area .mat-sum-col{display:flex;flex-direction:column;gap:4mm}
+  #print-area .ms-block{border:.3pt solid #c8c6bc;border-radius:1mm;padding:2.5mm 3mm;break-inside:avoid}
+  #print-area .ms-block-title{font-size:8pt;font-weight:600;color:#1B365D;letter-spacing:.06em;margin-bottom:2mm;border-bottom:.25pt solid #e8e6dc;padding-bottom:1.5mm}
+  #print-area .ms-tbl{width:100%;border-collapse:collapse;font-size:9pt}
+  #print-area .ms-tbl td,#print-area .ms-tbl th{padding:1mm 1.5mm;vertical-align:top}
+  #print-area .ms-tbl .ms-lbl{width:22mm;color:#504e49;font-size:8pt;font-weight:500}
+  #print-area .ms-tbl .ms-val{color:#141413}
+  #print-area .ms-tbl-trim thead th{font-size:7.5pt;font-weight:600;color:#504e49;border-bottom:.3pt solid #e8e6dc;padding-bottom:1mm}
+  #print-area .ms-tbl-trim tbody td{font-size:8.5pt;border-bottom:.2pt solid #f0efe8}
+  #print-area .ms-tbl-trim .qty{text-align:right;font-variant-numeric:tabular-nums}
+  #print-area .ms-tbl-trim tfoot .ms-total td{font-weight:600;border-top:.5pt solid #c8c6bc;background:#faf9f5;padding-top:1.5mm}
+  /* Room metrics row in print */
+  #print-area .print-room-metrics{display:grid;grid-template-columns:auto repeat(5,1fr);gap:1.5mm;margin:0 0 2mm;align-items:stretch;page-break-inside:avoid}
+  #print-area .print-room-metrics .row-label{font-size:9pt;font-weight:500;color:#141413;align-self:center;padding-right:2mm}
+  #print-area .print-room-metrics .cell{background:#faf9f5;border:.3pt solid #e8e6dc;border-radius:1.5mm;padding:1mm 2mm;display:flex;flex-direction:column;justify-content:center;min-height:8mm}
+  #print-area .print-room-metrics .cell .lbl{font-size:6.5pt;font-weight:600;color:#504e49;letter-spacing:.04em}
+  #print-area .print-room-metrics .cell .val{font-size:10.5pt;font-weight:500;color:#1B365D;font-variant-numeric:tabular-nums;line-height:1.05;margin-top:.4mm}
+  #print-area .print-room-metrics .cell .unit{font-size:7.5pt;font-weight:400;color:#504e49;margin-left:1.2mm}
+  @page{size:A4 landscape;margin:10mm 12mm}
+}

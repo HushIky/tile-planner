@@ -1,0 +1,17 @@
+/* Coarse pointer and tablet adaptations. */
+/* Touch enhancements: larger drag/tap targets for fingers */
+@media (pointer: coarse){
+  .oh{stroke-width:40}     /* door/window drag hit area */
+  .epF{r:16}               /* opening edit handles */
+}
+
+/* iPad landscape: lock page scroll so missed drags can't pan the viewport.
+   Left column (plan canvas) never scrolls — every gesture there is editing.
+   Right column may scroll if stats + tile preview overflow. */
+@media (min-width:1024px) and (orientation:landscape) and (pointer:coarse){
+  html,body{height:100vh;overflow:hidden;overscroll-behavior:none}
+  .wrap{height:100vh;max-height:100vh;display:flex;flex-direction:column;overflow:hidden}
+  .main-grid{flex:1;min-height:0}
+  .main-grid > .col:first-child{max-height:100%;overflow:hidden}
+  .main-grid > .col:last-child{max-height:100%;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+}
