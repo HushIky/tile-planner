@@ -7,7 +7,7 @@ function renderEditPanel(){
   if(state.selected.kind==='wall'){
     const name=state.selected.id;
     tit.textContent=name+' ('+wallLengthOf(name)+' cm)';
-    body.innerHTML=`<p style="font-size:13px;color:var(--muted);margin:0">直接點 SVG 上的牆名數字編輯,或從上面「房間」設定改 ${(name==='W1'||name==='W3')?'長':'寬'}。</p>`;
+    body.innerHTML=`<p style="font-size:13px;color:var(--muted);margin:0">直接点 SVG 上的墙名数字编辑,或从上面「房间」设定改 ${(name==='W1'||name==='W3')?'长':'宽'}。</p>`;
     return;
   }
   if(state.selected.kind==='drain'){
@@ -50,20 +50,20 @@ function renderEditPanel(){
     const totalLen = isY ? r.length : r.width;
     const d1 = t.offset;
     const d2 = totalLen - t.offset - t.width;
-    const lab1 = isY ? '離左' : '離上';
-    const lab2 = isY ? '離右' : '離下';
-    const dirLabel = isY ? '直立(平行短邊)' : '橫向(平行長邊)';
-    tit.textContent='人造石門檻 — '+dirLabel;
+    const lab1 = isY ? '离左' : '离上';
+    const lab2 = isY ? '离右' : '离下';
+    const dirLabel = isY ? '直立(平行短边)' : '横向(平行长边)';
+    tit.textContent='人造石门槛 — '+dirLabel;
     body.innerHTML=`
       <div class="row">
         <label>${lab1} <input id="thr-d1" type="number" value="${d1}"/></label>
         <label>${lab2} <input id="thr-d2" type="number" value="${d2}"/></label>
-        <label>寬度 <input id="thr-w" type="number" value="${t.width}"/> cm</label>
+        <label>宽度 <input id="thr-w" type="number" value="${t.width}"/> cm</label>
       </div>
       <div class="actions-row">
-        <button id="thr-rotate">↻ 旋轉 90°</button>
-        <button id="thr-apply">套用</button>
-        <button class="del" id="thr-del">移除門檻</button>
+        <button id="thr-rotate">↻ 旋转 90°</button>
+        <button id="thr-apply">应用</button>
+        <button class="del" id="thr-del">移除门槛</button>
       </div>
     `;
     // two-way reactive preview
@@ -96,12 +96,12 @@ function renderEditPanel(){
     const wallLen = wallLengthOf(s.wall);
     const r = state.room;
     const perpLen = (s.wall==='W1'||s.wall==='W3') ? r.width : r.length;
-    tit.textContent = '管道間 — 貼 '+s.wall;
+    tit.textContent = '管道间 — 贴 '+s.wall;
     const labels = {W1:['左下','右下'], W2:['左下','左上'], W3:['左上','右上'], W4:['右上','右下']}[s.wall] || ['A端','B端'];
     const atStart = s.offsetAlong < 0.5;
     body.innerHTML=`
       <div class="row">
-        <label>沿牆長 <input id="sh-len" type="number" value="${s.lenAlong}"/> cm</label>
+        <label>沿墙长 <input id="sh-len" type="number" value="${s.lenAlong}"/> cm</label>
         <label>深度 <input id="sh-dep" type="number" value="${s.depth}"/> cm</label>
       </div>
       <div class="row">
@@ -113,7 +113,7 @@ function renderEditPanel(){
         </label>
       </div>
       <div class="actions-row">
-        <button class="del" id="sh-del">移除管道間</button>
+        <button class="del" id="sh-del">移除管道间</button>
       </div>
     `;
     function applyShaftEdit(){
@@ -139,24 +139,24 @@ function renderEditPanel(){
   if(!o){ep.style.display='none';return;}
   const wW=wallLengthOf(o.wall);
   const right=wW-o.left-o.width;
-  tit.textContent=o.id+'・'+(o.type==='door'?'門':'窗')+'・在 '+o.wall+' 上(牆 '+wW+'cm)';
+  tit.textContent=o.id+'・'+(o.type==='door'?'门':'窗')+'・在 '+o.wall+' 上(墙 '+wW+'cm)';
   const isWin=o.type==='window';
   body.innerHTML=`
     <div class="row">
       <label>左距 <input id="op-l" type="number" value="${o.left}"/></label>
       <label>右距 <input id="op-r" type="number" value="${right}"/></label>
-      <label>寬度 <input id="op-w" type="number" value="${o.width}"/></label>
+      <label>宽度 <input id="op-w" type="number" value="${o.width}"/></label>
     </div>
     <div class="row">
       ${isWin
         ? `<label>台度 <input id="op-b-or-h" type="number" value="${o.bottom}"/></label>
            <label>窗高 <input id="op-h2" type="number" value="${o.height}"/></label>`
-        : `<label>門高 <input id="op-b-or-h" type="number" value="${o.height}"/></label>`
+        : `<label>门高 <input id="op-b-or-h" type="number" value="${o.height}"/></label>`
       }
     </div>
     <div class="actions-row">
-      ${o.type==='door'?'<button id="op-cyc">↻ 換方向</button>':''}
-      <button class="del" id="op-del">刪除</button>
+      ${o.type==='door'?'<button id="op-cyc">↻ 换方向</button>':''}
+      <button class="del" id="op-del">删除</button>
     </div>
   `;
 
@@ -268,7 +268,7 @@ function renderTilePreview(){
         segs.push({wall:wallName, kind:'shaft-face', length:s.lenAlong, fromX:f.left, holes:[], offsetX:0, shaftId:s.id, label:s.id+'·面'});
       } else { // perp-corner: project the SIDE face here (replaces what would be hidden)
         const s = f.shaft;
-        segs.push({wall:wallName, kind:'shaft-face', length:f.width, fromX:f.left, holes:[], offsetX:0, shaftId:s.id, label:s.id+'·側'});
+        segs.push({wall:wallName, kind:'shaft-face', length:f.width, fromX:f.left, holes:[], offsetX:0, shaftId:s.id, label:s.id+'·侧'});
       }
       cursor = f.left + f.width;
     }
@@ -357,7 +357,7 @@ function renderTilePreview(){
         const cls = 'tile'+(t.full?'':' cut')+(isShaftFace ? ' shaft' : '');
         svgW.appendChild(mr({x:ox+p.x*scaleW, y:pad+py, width:p.w*scaleW, height:p.h*scaleW}, cls));
       }
-      if(t.pieces.length){
+      if(t.pieces.length && state.tiles.showTileNumbers){
         const main = t.pieces.reduce((a,p) => p.w*p.h > a.w*a.h ? p : a);
         const minDimPx = Math.min(main.w, main.h) * scaleW;
         const fs = Math.max(5, Math.min(8, minDimPx * 0.4));
@@ -390,7 +390,7 @@ function renderTilePreview(){
         // Extend fill 3px beyond opening bounds to fully cover adjacent tile stroke lines
         svgW.appendChild(mr({x:rx, y:ry-3, width:rw, height:rh+6, fill:'var(--bg2)', stroke:'none'}));
         // Small type label at center — no border lines at all
-        const labelText = o.type === 'door' ? '門' : '窗';
+        const labelText = o.type === 'door' ? '门' : '窗';
         const lbl = mt(rx+rw/2, ry+rh/2, labelText, 'preview-label');
         lbl.setAttribute('font-size', Math.max(7, Math.min(11, Math.min(rw,rh)*0.3)));
         lbl.setAttribute('opacity', '0.5');
@@ -399,7 +399,7 @@ function renderTilePreview(){
     }
     // Label above every segment so users can match wall preview to plan view:
     //   - wall segment -> W1 / W2 / W3 / W4
-    //   - shaft face   -> P1·面 / P1·側
+    //   - shaft face   -> P1·面 / P1·侧
     if(spec.kind === 'wall' || isShaftFace){
       const lbl = mt(ox + segLen*scaleW/2, pad - 4, spec.label, 'preview-label');
       lbl.setAttribute('font-size', '9');
@@ -489,7 +489,7 @@ function renderUnfolded(allTiles){
     // Number text — sized based on rendered tile dimensions
     const minPx = Math.min(uW, uH) * scale;
     const fs = Math.max(4, Math.min(8, minPx * 0.32));
-    if(fs >= 4.5){
+    if(fs >= 4.5 && state.tiles.showTileNumbers){
       const numEl = cmText(uX + uW/2, uY + uH/2, tileLabel(tile, isFloor), 'uf-tile-num');
       numEl.setAttribute('font-size', fs);
       svg.appendChild(numEl);
@@ -521,7 +521,7 @@ function renderUnfolded(allTiles){
           // Number text — same sizing logic as drawTileWithNum
           const minPx = Math.min(u.w, u.h) * scale;
           const fs = Math.max(4, Math.min(8, minPx * 0.32));
-          if(fs >= 4.5){
+          if(fs >= 4.5 && state.tiles.showTileNumbers){
             const numEl = cmText(u.x + u.w/2, u.y + u.h/2, tileLabel(t, false), 'uf-tile-num');
             numEl.setAttribute('font-size', fs);
             svg.appendChild(numEl);
@@ -554,7 +554,7 @@ function renderUnfolded(allTiles){
     if(!u) continue;
     svg.appendChild(cmRect(u.x, u.y, u.w, u.h, 'uf-opening'));
     // Opening label (Door / Window)
-    const labelText = o.type === 'door' ? '門' : '窗';
+    const labelText = o.type === 'door' ? '门' : '窗';
     const labelEl = cmText(u.x + u.w/2, u.y + u.h/2, labelText, 'uf-opening-label');
     labelEl.setAttribute('font-size', Math.max(8, Math.min(13, Math.min(u.w, u.h) * scale * 0.25)));
     svg.appendChild(labelEl);
@@ -688,7 +688,7 @@ function updateStats(allTiles){
   const floorSavings = floorBuyNaive - floorBuyOpt;
   function buySubText(savings, isOptMode){
     if(savings <= 0) return '片';
-    return isOptMode ? `片 / 省 ${savings}` : `片 / 最佳化可省 ${savings}`;
+    return isOptMode ? `片 / 省 ${savings}` : `片 / 优化可省 ${savings}`;
   }
   $('s-w-full').textContent = wFull;
   $('s-w-cut').textContent = wCut;
@@ -757,8 +757,8 @@ function renderMaterialSummary(allStats){
     trimTotal += qty;
     trimRows += `<div class="msm-row">
       <span class="msm-label">窗 ${w.wall}</span>
-      <span class="msm-model" style="font-size:11px;font-weight:400">寬${w.width}×2&nbsp;+&nbsp;高${w.height}×2&nbsp;=&nbsp;${tot}&thinsp;cm</span>
-      <span class="msm-qty"><span class="msm-bold">${qty}</span> 條</span>
+      <span class="msm-model" style="font-size:11px;font-weight:400">宽${w.width}×2&nbsp;+&nbsp;高${w.height}×2&nbsp;=&nbsp;${tot}&thinsp;cm</span>
+      <span class="msm-qty"><span class="msm-bold">${qty}</span> 条</span>
     </div>`;
   }
   for(const s of shafts){
@@ -766,11 +766,11 @@ function renderMaterialSummary(allStats){
     const tot = corners * H;
     const qty = Math.ceil(tot / STRIP);
     trimTotal += qty;
-    const cornerNote = corners === 1 ? '雙面貼牆 ×1' : '×2 轉角';
+    const cornerNote = corners === 1 ? '双面贴墙 ×1' : '×2 转角';
     trimRows += `<div class="msm-row">
-      <span class="msm-label">管道間 ${s.wall}</span>
+      <span class="msm-label">管道间 ${s.wall}</span>
       <span class="msm-model" style="font-size:11px;font-weight:400">高${H}&thinsp;cm&nbsp;${cornerNote}&nbsp;=&nbsp;${tot}&thinsp;cm</span>
-      <span class="msm-qty"><span class="msm-bold">${qty}</span> 條</span>
+      <span class="msm-qty"><span class="msm-bold">${qty}</span> 条</span>
     </div>`;
   }
 
@@ -782,9 +782,9 @@ function renderMaterialSummary(allStats){
     const qty = Math.ceil(t.width / STRIP) || 1;
     thrTotal += qty;
     thrRows = `<div class="msm-row">
-      <span class="msm-label">門檻</span>
+      <span class="msm-label">门槛</span>
       <span class="msm-model" style="font-size:11px;font-weight:400">${t.width}×${thrLen}&thinsp;cm</span>
-      <span class="msm-qty"><span class="msm-bold">${qty}</span> 條</span>
+      <span class="msm-qty"><span class="msm-bold">${qty}</span> 条</span>
     </div>`;
   }
 
@@ -823,4 +823,5 @@ function render(opts){
   updateStats(all);
   renderDrainThrTable();
   renderMaterialSummary();
+  if(typeof window.render3d === 'function') window.render3d();
 }

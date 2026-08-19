@@ -103,7 +103,7 @@ function renderPlan(floorData){
     const tr=mr({x:pad+t.x*scale, y:pad+t.y*scale, width:t.w*scale, height:t.h*scale}, 'thr-rect'+(sel?' sel':''));
     tr.dataset.thr='1';
     Gthr.appendChild(tr);
-    const lbl = mt(pad+(t.x+t.w/2)*scale, pad+(t.y+t.h/2)*scale, '門檻 '+t.w+'cm', 'preview-label');
+    const lbl = mt(pad+(t.x+t.w/2)*scale, pad+(t.y+t.h/2)*scale, '门槛 '+t.w+'cm', 'preview-label');
     lbl.setAttribute('fill','#80603a');
     lbl.setAttribute('font-weight','700');
     Gthr.appendChild(lbl);
@@ -267,7 +267,7 @@ function renderPlan(floorData){
         v=>applyWallLen(name, v),
         {wallStyle:true, width:64, height:26}));
     } else {
-      // dim on (plain / arch): outer 標註已含尺寸,wall label 只顯示牆名,避免重複
+      // dim on (plain / arch): outer 标注已含尺寸,wall label 只显示墙名,避免重复
       const lblText = (state.tiles.dimStyle === 'off')
         ? (name+' '+wallLengthOf(name)+' cm')
         : name;
@@ -321,7 +321,7 @@ function renderPlan(floorData){
       // opening label
       const omx=(sx+ex)/2, omy=(sy+ey)/2;
       const inX=-uy*18, inY=ux*18;
-      let lbl=(o.type==='door'?'門':'窗')+' '+o.width;
+      let lbl=(o.type==='door'?'门':'窗')+' '+o.width;
       if(o.type==='window'&&o.bottom) lbl+=' 台'+o.bottom;
       Go.appendChild(mt(omx-uy*18, omy+ux*18, lbl, 'ol'+(sl?' sel':'')));
       // opening hit
@@ -484,7 +484,7 @@ function renderDrainThrTable(){
   const mode = state.drainDimMode;
   const isEdge = mode === 'edge';
   const hs = 5;
-  const modeLabel = isEdge ? '邊緣距離' : '中心距離';
+  const modeLabel = isEdge ? '边缘距离' : '中心距离';
 
   let rows = '';
 
@@ -514,7 +514,7 @@ function renderDrainThrTable(){
     const cT = isY ? '<span class="dtt-na">—</span>' : d1+'&thinsp;cm';
     const cB = isY ? '<span class="dtt-na">—</span>' : d2+'&thinsp;cm';
     rows += `<tr class="${isSel?'dtt-sel':''}">
-      <td class="dtt-name"><span class="dtt-icon">▬</span> 門檻 ${ts.width}×${thrLen}cm</td>
+      <td class="dtt-name"><span class="dtt-icon">▬</span> 门槛 ${ts.width}×${thrLen}cm</td>
       <td>${cL}</td><td>${cR}</td><td>${cT}</td><td>${cB}</td>
     </tr>`;
   }
@@ -523,7 +523,7 @@ function renderDrainThrTable(){
   el.innerHTML = `
   <div class="dtt-wrap">
     <div class="dtt-header">
-      <span class="dtt-title">📐 離牆距離</span>
+      <span class="dtt-title">📐 离墙距离</span>
       <label class="drain-dim-toggle">
         <input type="checkbox" id="dtt-mode-toggle" ${isEdge?'':'checked'}>
         <span class="dtt-mode-lbl">${modeLabel}</span>
@@ -531,7 +531,7 @@ function renderDrainThrTable(){
     </div>
     <table class="dtt">
       <thead><tr>
-        <th>項目</th>
+        <th>项目</th>
         <th>← W2</th><th>W4 →</th><th>↑ W3</th><th>↓ W1</th>
       </tr></thead>
       <tbody>${rows}</tbody>
@@ -840,7 +840,7 @@ function rotateThreshold(){
 
 function ensureShaftDefault(){
   const r = state.room;
-  // Default 40 (沿牆) × 30 (深) at the bottom-left corner (W1, offsetAlong=0).
+  // Default 40 (沿墙) × 30 (深) at the bottom-left corner (W1, offsetAlong=0).
   // Clamp if room is unusually small.
   const lenAlong = Math.min(40, Math.max(10, r.length));
   const depth = Math.min(30, Math.max(10, r.width));
@@ -947,7 +947,7 @@ function addOpToWall(wallName, pt){
   const tCm=t/planScale();
   const wallLen=wallLengthOf(wallName);
   const w=pendingOp.width;
-  if(wallLen<w+10){alert('牆太短');exitMode();return;}
+  if(wallLen<w+10){alert('墙太短');exitMode();return;}
   let left=Math.round(tCm-w/2);
   left=Math.max(0, Math.min(wallLen-w, left));
   state.oCnt++;

@@ -112,6 +112,8 @@ $('fi').onchange=e=>{
         state=Object.assign(state, d);
         if(!Array.isArray(state.shafts)) state.shafts = [];
         if(typeof state.sCnt !== 'number') state.sCnt = state.shafts.length;
+        if(typeof state.tiles.showTileNumbers !== 'boolean') state.tiles.showTileNumbers = false;
+        if($('show-tile-numbers')) $('show-tile-numbers').checked = state.tiles.showTileNumbers;
         $('rl').value=state.room.length; $('rw').value=state.room.width;
         gcEvent('import-json', 'Import JSON');
         $('rh').value=state.room.wallHeight; $('ih').value=state.room.installHeight;
@@ -169,7 +171,7 @@ $('fi').onchange=e=>{
         state.selected=null; state.mode='edit';
         render();
       }
-    }catch(err){alert('JSON 解析失敗:'+err.message);}
+    }catch(err){alert('JSON 解析失败:'+err.message);}
   };
   r.readAsText(f);
   e.target.value='';
@@ -187,6 +189,15 @@ const fbondSelect = document.querySelector('.fbond-select');
 if(fbondSelect){
   fbondSelect.addEventListener('change', () => {
     state.tiles.floorBondMode = fbondSelect.value;
+    render();
+  });
+}
+
+const tileNumberToggle = $('show-tile-numbers');
+if(tileNumberToggle){
+  tileNumberToggle.checked = !!state.tiles.showTileNumbers;
+  tileNumberToggle.addEventListener('change', () => {
+    state.tiles.showTileNumbers = tileNumberToggle.checked;
     render();
   });
 }
@@ -211,7 +222,7 @@ function applyView(mode){
   try { localStorage.setItem(VIEW_KEY, mode); } catch(e){}
   $('tile-walls').style.display = mode === 'walls' ? '' : 'none';
   $('tile-unfolded').style.display = mode === 'unfolded' ? '' : 'none';
-  $('tile-view-title').textContent = mode === 'walls' ? '牆面磁磚展開' : '紙盒展開圖';
+  $('tile-view-title').textContent = mode === 'walls' ? '墙面瓷砖展开' : '纸盒展开图';
   document.querySelectorAll('#seg-tile-view button').forEach(x =>
     x.classList.toggle('active', x.dataset.view === mode)
   );

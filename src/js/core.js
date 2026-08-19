@@ -19,11 +19,11 @@ function gcEvent(name, title){
 // ===== Theme management =====
 const THEME_KEY = 'tile-planner-theme';
 const THEME_ORDER = ['light', 'dark'];
-const THEME_LABEL = { light: '淺色', dark: '深色' };
+const THEME_LABEL = { light: '浅色', dark: '深色' };
 function applyTheme(t){
   document.documentElement.setAttribute('data-theme', t);
   const btn = document.getElementById('theme-toggle');
-  if(btn) btn.textContent = '主題: ' + THEME_LABEL[t];
+  if(btn) btn.textContent = '主题: ' + THEME_LABEL[t];
 }
 let _currentTheme = (function(){
   try {
@@ -47,7 +47,7 @@ const SCALE = 1.0; // plan is in cm directly (1px = 1cm visually for simple sizi
 // State
 let state = {
   room: { length: 280, width: 180, wallHeight: 270, installHeight: 240 },
-  tiles: { wallW: 60, wallH: 30, floorW: 30, floorH: 30, groutMm: 3, groutWallMm: 3, groutFloorMm: 3, bondMode: 'aligned', floorBondMode: 'aligned', dimStyle: 'plain', cuttingMode: 'naive', offsetX: { W1: 0, W2: 0, W3: 0, W4: 0 }, offsetY: 0, floorOffset: { x: 0, y: 0 } },
+  tiles: { wallW: 60, wallH: 30, floorW: 30, floorH: 30, groutMm: 3, groutWallMm: 3, groutFloorMm: 3, bondMode: 'aligned', floorBondMode: 'aligned', dimStyle: 'plain', cuttingMode: 'naive', showTileNumbers: false, offsetX: { W1: 0, W2: 0, W3: 0, W4: 0 }, offsetY: 0, floorOffset: { x: 0, y: 0 } },
   openings: [
     { id:'D1', wall:'W2', type:'door',   width:75, height:200, left:30, bottom:0, hinge:'s', swing:'l' },
     { id:'C1', wall:'W3', type:'window', width:90, height:60,  left:80, bottom:130 }
@@ -515,9 +515,9 @@ function shaftVisibleFaces(){
     // Front face (parallel to the primary wall, length = lenAlong) — always visible
     faces.push({shaftId:s.id, label:s.id+'·面', length:s.lenAlong, kind:'front'});
     // Side at offsetAlong=0 end (perpendicular, length = depth) — hidden if at start corner
-    if(!atStart) faces.push({shaftId:s.id, label:s.id+'·側A', length:s.depth, kind:'sideA'});
+    if(!atStart) faces.push({shaftId:s.id, label:s.id+'·侧A', length:s.depth, kind:'sideA'});
     // Side at the other end — hidden if at end corner
-    if(!atEnd) faces.push({shaftId:s.id, label:s.id+'·側B', length:s.depth, kind:'sideB'});
+    if(!atEnd) faces.push({shaftId:s.id, label:s.id+'·侧B', length:s.depth, kind:'sideB'});
   }
   return faces;
 }

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-TW" data-theme="light">
+<html lang="zh-CN" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-  <title>浴室磁磚計畫</title>
+  <title>浴室瓷砖计划</title>
   <link rel="stylesheet" href="src/styles/tokens.css">
   <link rel="stylesheet" href="src/styles/app.css">
   <link rel="stylesheet" href="src/styles/print.css">
@@ -13,45 +13,47 @@
 <body>
 <div class="wrap">
 <div class="head">
-  <h1>浴室磁磚計畫</h1>
+  <h1>浴室瓷砖计划</h1>
   <div class="actions">
-    <button id="theme-toggle" title="切換主題">主題: 淺色</button>
-    <button id="proj-info" title="編輯案名、地址(匯出時帶入)">案件資訊</button>
-    <button id="ex-pdf" title="列印 → 存為 PDF(向量、最穩定、跨瀏覽器)">匯出 PDF</button>
-    <button id="ex-png" title="匯出當前畫面為 PNG(平面圖 + 磁磚展開圖)">匯出 PNG</button>
-    <button id="ex-svg" title="匯出當前畫面為 SVG(向量,可在 Illustrator / Figma 編輯)">匯出 SVG</button>
+    <button id="theme-toggle" title="切换主题">主题: 浅色</button>
+    <button id="proj-info" title="编辑案名、地址（导出时带入）">案件信息</button>
+    <button id="ex-pdf" title="打印 → 存为 PDF(向量、最稳定、跨浏览器)">导出 PDF</button>
+    <button id="ex-png" title="导出当前画面为 PNG(平面图 + 瓷砖展开图)">导出 PNG</button>
+    <button id="ex-svg" title="导出当前画面为 SVG(向量,可在 Illustrator / Figma 编辑)">导出 SVG</button>
+    <button id="view-3d" title="按目前排砖配置开启 3D 预览">3D 预览</button>
+    <button id="profile-manager" title="保存和切换浏览器中的配置">保存配置</button>
     <button id="ex-json">JSON</button>
-    <button id="im-json">載入</button>
+    <button id="im-json">载入</button>
     <input type="file" id="fi" accept="application/json,.json">
-    <a id="line-link" href="https://line.me/R/ti/p/%40329uzcco" target="_blank" rel="noopener" title="廢棄物清運估價 · LINE @329uzcco">
-      <span class="dot"></span>廢棄物清運估價
+    <a id="line-link" href="https://line.me/R/ti/p/%40329uzcco" target="_blank" rel="noopener" title="废弃物清运估价 · LINE @329uzcco">
+      <span class="dot"></span>废弃物清运估价
     </a>
   </div>
 </div>
 
 <div class="settings-compact">
   <div class="sc-row">
-    <span class="grp-lbl">房間</span>
-    <label>長 <input id="rl" type="number" inputmode="numeric" value="280"></label>
-    <label>寬 <input id="rw" type="number" inputmode="numeric" value="180"></label>
-    <label>牆高 <input id="rh" type="number" inputmode="numeric" value="270"></label>
-    <label>鋪到 <input id="ih" type="number" inputmode="numeric" value="240"></label>
-    <label class="strip-inline-lbl">收邊條 <input id="msm-strip-len" type="number" min="60" max="600" step="10" value="240" inputmode="numeric"><span class="unit">cm</span></label>
+    <span class="grp-lbl">房间</span>
+    <label>长 <input id="rl" type="number" inputmode="numeric" value="280"></label>
+    <label>宽 <input id="rw" type="number" inputmode="numeric" value="180"></label>
+    <label>墙高 <input id="rh" type="number" inputmode="numeric" value="270"></label>
+    <label>铺到 <input id="ih" type="number" inputmode="numeric" value="240"></label>
+    <label class="strip-inline-lbl">收边条 <input id="msm-strip-len" type="number" min="60" max="600" step="10" value="240" inputmode="numeric"><span class="unit">cm</span></label>
   </div>
   <div class="sc-row sc-row-tile">
     <div class="sc-tile-grp sc-tile-wall">
-      <span class="sc-grp-lbl">牆磚</span>
-      <label class="sc-model"><input id="mat-wall-tile" type="text" class="sc-model-in" placeholder="型號"></label>
-      <label>尺寸 <input id="tww" type="number" inputmode="numeric" value="600"><span class="x">×</span><input id="twh" type="number" inputmode="numeric" value="300"><span class="unit-mm">mm</span><button type="button" class="tile-rot" id="rot-wall" title="長寬對調" aria-label="牆磚長寬對調"><svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M2.5 7.5a5.5 5.5 0 0 1 9.4-3.9l1.6 1.6V3a.75.75 0 0 1 1.5 0v4a.75.75 0 0 1-.75.75H10.25a.75.75 0 0 1 0-1.5h2.19l-1.6-1.6A4 4 0 0 0 4 7.5a.75.75 0 0 1-1.5 0Z" fill="currentColor"></path><path d="M13.5 8.5a5.5 5.5 0 0 1-9.4 3.9L2.5 10.8V13a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75H5.75a.75.75 0 0 1 0 1.5H3.56l1.6 1.6A4 4 0 0 0 12 8.5a.75.75 0 0 1 1.5 0Z" fill="currentColor"></path></svg></button></label>
-      <label class="sc-model">縫劑 <input id="mat-wall-grout" type="text" class="sc-model-in" placeholder="型號"></label>
-      <label>縫 <input id="grt-wall" type="number" inputmode="numeric" value="3" step="0.5"><span class="unit">mm</span></label>
+      <span class="sc-grp-lbl">墙砖</span>
+      <label class="sc-model"><input id="mat-wall-tile" type="text" class="sc-model-in" placeholder="型号"></label>
+      <label>尺寸 <input id="tww" type="number" inputmode="numeric" value="600"><span class="x">×</span><input id="twh" type="number" inputmode="numeric" value="300"><span class="unit-mm">mm</span><button type="button" class="tile-rot" id="rot-wall" title="长宽对调" aria-label="墙砖长宽对调"><svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M2.5 7.5a5.5 5.5 0 0 1 9.4-3.9l1.6 1.6V3a.75.75 0 0 1 1.5 0v4a.75.75 0 0 1-.75.75H10.25a.75.75 0 0 1 0-1.5h2.19l-1.6-1.6A4 4 0 0 0 4 7.5a.75.75 0 0 1-1.5 0Z" fill="currentColor"></path><path d="M13.5 8.5a5.5 5.5 0 0 1-9.4 3.9L2.5 10.8V13a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75H5.75a.75.75 0 0 1 0 1.5H3.56l1.6 1.6A4 4 0 0 0 12 8.5a.75.75 0 0 1 1.5 0Z" fill="currentColor"></path></svg></button></label>
+      <label class="sc-model">缝剂 <input id="mat-wall-grout" type="text" class="sc-model-in" placeholder="型号"></label>
+      <label>缝 <input id="grt-wall" type="number" inputmode="numeric" value="3" step="0.5"><span class="unit">mm</span></label>
     </div>
     <div class="sc-tile-grp sc-tile-floor">
-      <span class="sc-grp-lbl">地磚</span>
-      <label class="sc-model"><input id="mat-floor-tile" type="text" class="sc-model-in" placeholder="型號"></label>
-      <label>尺寸 <input id="tfw" type="number" inputmode="numeric" value="300"><span class="x">×</span><input id="tfh" type="number" inputmode="numeric" value="300"><span class="unit-mm">mm</span><button type="button" class="tile-rot" id="rot-floor" title="長寬對調" aria-label="地磚長寬對調"><svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M2.5 7.5a5.5 5.5 0 0 1 9.4-3.9l1.6 1.6V3a.75.75 0 0 1 1.5 0v4a.75.75 0 0 1-.75.75H10.25a.75.75 0 0 1 0-1.5h2.19l-1.6-1.6A4 4 0 0 0 4 7.5a.75.75 0 0 1-1.5 0Z" fill="currentColor"></path><path d="M13.5 8.5a5.5 5.5 0 0 1-9.4 3.9L2.5 10.8V13a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75H5.75a.75.75 0 0 1 0 1.5H3.56l1.6 1.6A4 4 0 0 0 12 8.5a.75.75 0 0 1 1.5 0Z" fill="currentColor"></path></svg></button></label>
-      <label class="sc-model">縫劑 <input id="mat-floor-grout" type="text" class="sc-model-in" placeholder="型號"></label>
-      <label>縫 <input id="grt-floor" type="number" inputmode="numeric" value="3" step="0.5"><span class="unit">mm</span></label>
+      <span class="sc-grp-lbl">地砖</span>
+      <label class="sc-model"><input id="mat-floor-tile" type="text" class="sc-model-in" placeholder="型号"></label>
+      <label>尺寸 <input id="tfw" type="number" inputmode="numeric" value="300"><span class="x">×</span><input id="tfh" type="number" inputmode="numeric" value="300"><span class="unit-mm">mm</span><button type="button" class="tile-rot" id="rot-floor" title="长宽对调" aria-label="地砖长宽对调"><svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M2.5 7.5a5.5 5.5 0 0 1 9.4-3.9l1.6 1.6V3a.75.75 0 0 1 1.5 0v4a.75.75 0 0 1-.75.75H10.25a.75.75 0 0 1 0-1.5h2.19l-1.6-1.6A4 4 0 0 0 4 7.5a.75.75 0 0 1-1.5 0Z" fill="currentColor"></path><path d="M13.5 8.5a5.5 5.5 0 0 1-9.4 3.9L2.5 10.8V13a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75H5.75a.75.75 0 0 1 0 1.5H3.56l1.6 1.6A4 4 0 0 0 12 8.5a.75.75 0 0 1 1.5 0Z" fill="currentColor"></path></svg></button></label>
+      <label class="sc-model">缝剂 <input id="mat-floor-grout" type="text" class="sc-model-in" placeholder="型号"></label>
+      <label>缝 <input id="grt-floor" type="number" inputmode="numeric" value="3" step="0.5"><span class="unit">mm</span></label>
     </div>
   </div>
 </div>
@@ -61,10 +63,10 @@
     <div class="cv" id="cv-container">
       <div class="plan-grid">
         <div class="fbond-ctrl">
-          <span class="axis-lbl">地磚貼法</span>
+          <span class="axis-lbl">地砖贴法</span>
           <select class="fbond-select">
             <optgroup label="水平交丁">
-              <option value="aligned">對齊</option>
+              <option value="aligned">对齐</option>
               <option value="half">1/2</option>
               <option value="third">1/3</option>
             </optgroup>
@@ -81,7 +83,7 @@
             <span>估購<strong id="s-f-buy">—</strong></span>
             <span id="s-f-buy-sub" class="pfs-sub"></span>
             <span id="floor-area-badge" class="floor-area-badge">— m²</span>
-            <span class="strip-stat">收邊條 <strong id="strip-stat-count">—</strong> 條</span>
+            <span class="strip-stat">收边条 <strong id="strip-stat-count">—</strong> 条</span>
           </div>
           <div class="fx-slider-row">
             <span class="axis-lbl">X →</span>
@@ -97,7 +99,7 @@
           <span class="unit">mm</span>
         </div>
         <div class="plan-area">
-          <svg id="canvas" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-label="浴室平面配置圖">
+          <svg id="canvas" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-label="浴室平面配置图">
             <g id="g-w"></g>
             <g id="g-tiles"></g>
             <g id="g-walls"></g>
@@ -117,12 +119,12 @@
         </div>
         <div id="drain-thr-table"></div>
         <div class="tools">
-          <button id="add-d90">+ 門 90</button>
-          <button id="add-d75">+ 門 75</button>
+          <button id="add-d90">+ 门 90</button>
+          <button id="add-d75">+ 门 75</button>
           <button id="add-win">+ 加窗</button>
-          <button id="add-thr">+ 門檻</button>
+          <button id="add-thr">+ 门槛</button>
           <button id="add-drain">+ 地排</button>
-          <button id="add-shaft">+ 管道間</button>
+          <button id="add-shaft">+ 管道间</button>
           <button id="cancel-add" style="display:none;color:var(--danger);margin-left:auto">取消</button>
         </div>
       </div>
@@ -147,7 +149,7 @@
 </div><!-- /col 1 -->
   <div class="col">
     <div class="offset-row" id="offset-row">
-      <div class="title">起鋪點偏移</div>
+      <div class="title">起铺点偏移</div>
       <div class="offset-item" data-wall="W1">
         <span class="lbl">W1</span>
         <input type="range" min="0" max="600" step="5" value="0">
@@ -180,9 +182,9 @@
       </div>
     </div>
     <div class="tile-section">
-      <h3><span id="tile-view-title">紙盒展開圖</span> <span class="pstats" id="walls-stats"></span><span class="bond-lbl">切割</span><div class="seg" id="seg-cut"><button data-cut="naive" class="active" title="每片裁切都用一片新原磚">標準</button><button data-cut="optimized" title="盡量讓多片裁切共用同一片原磚,省料">最佳化</button></div><span class="bond-lbl">排版</span><div class="seg" id="seg-tile-view"><button data-view="walls" class="" title="逐面牆攤平,方便比較尺寸">牆面</button><button data-view="unfolded" title="像紙盒平鋪展開,中央地板四周牆面,檢視磁磚對縫" class="active">紙盒</button></div><span class="bond-lbl">牆磚貼法</span><select class="wbond-select" title="牆磚的橫向錯位方式:對齊=同一條垂直縫;交丁=每排錯開">
+      <h3><span id="tile-view-title">纸盒展开图</span> <span class="pstats" id="walls-stats"></span><span class="bond-lbl">切割</span><div class="seg" id="seg-cut"><button data-cut="naive" class="active" title="每片裁切都用一片新原砖">标准</button><button data-cut="optimized" title="尽量让多片裁切共用同一片原砖,省料">优化</button></div><span class="bond-lbl">排版</span><div class="seg" id="seg-tile-view"><button data-view="walls" class="" title="逐面墙摊平,方便比较尺寸">墙面</button><button data-view="unfolded" title="像纸盒平铺展开,中央地板四周墙面,检视瓷砖对缝" class="active">纸盒</button></div><label class="tile-number-toggle"><input id="show-tile-numbers" type="checkbox">显示砖序号</label><span class="bond-lbl">墙砖贴法</span><select class="wbond-select" title="墙砖的横向错位方式:对齐=同一条垂直缝;交丁=每排错开">
         <optgroup label="水平交丁">
-          <option value="aligned">對齊</option>
+          <option value="aligned">对齐</option>
           <option value="half">1/2</option>
           <option value="third">1/3</option>
         </optgroup>
@@ -190,38 +192,89 @@
           <option value="v-half">1/2</option>
           <option value="v-third">1/3</option>
         </optgroup>
-      </select><span class="bond-lbl">標註</span><div class="seg" id="seg-dim" style="display: none;">
-        <button data-dim="plain" class="active" title="牆面預覽尺寸標示:純數字,簡潔">純數字</button>
-        <button data-dim="arch" title="牆面預覽尺寸標示:建築風格,帶箭頭線">建築風</button>
+      </select><span class="bond-lbl">标注</span><div class="seg" id="seg-dim" style="display: none;">
+        <button data-dim="plain" class="active" title="墙面预览尺寸标示:纯数字,简洁">纯数字</button>
+        <button data-dim="arch" title="墙面预览尺寸标示:建筑风格,带箭头线">建筑风</button>
       </div></h3>
-  <svg id="tile-walls" xmlns="http://www.w3.org/2000/svg" aria-label="牆面磁磚展開圖"></svg>
-  <svg id="tile-unfolded" xmlns="http://www.w3.org/2000/svg" aria-label="紙盒展開圖"></svg>
+  <svg id="tile-walls" xmlns="http://www.w3.org/2000/svg" aria-label="墙面瓷砖展开图"></svg>
+  <svg id="tile-unfolded" xmlns="http://www.w3.org/2000/svg" aria-label="纸盒展开图"></svg>
 </div>
 
   </div>
 </div>
 
-<p class="hint">匯出三種格式:<strong>PDF(推薦)</strong>—走原生列印,選「儲存為 PDF」,向量、最穩定。<strong>PNG</strong>—2x DPI 點陣,適合貼進訊息 / 社群。<strong>SVG</strong>—向量,可在 Illustrator / Figma 編輯。三種都會強制淺色主題輸出,且自動排版「平面圖 + 當前磁磚展開」並排。PNG 修了 foreignObject 跟 data URL 載入問題,這版應該可以正常匯出。</p>
+<p class="hint">导出三种格式:<strong>PDF(推荐)</strong>—走原生打印,选「保存为 PDF」,向量、最稳定。<strong>PNG</strong>—2x DPI 点阵,适合贴进消息 / 社区。<strong>SVG</strong>—向量,可在 Illustrator / Figma 编辑。三种都会强制浅色主题输出,且自动排版「平面图 + 当前瓷砖展开」并排。PNG 修了 foreignObject 跟 data URL 载入问题,这版应该可以正常导出。</p>
 </div>
 
 <dialog id="proj-dialog" class="project-dialog">
   <form method="dialog" class="project-dialog__form">
-    <h3 class="project-dialog__title">案件資訊(匯出時帶入)</h3>
+    <h3 class="project-dialog__title">案件信息（导出时带入）</h3>
     <label class="project-dialog__field">
       案名
-      <input type="text" id="proj-name" placeholder="例: 王公館主臥浴室">
+      <input type="text" id="proj-name" placeholder="例: 王公馆主卧浴室">
     </label>
     <label class="project-dialog__field">
       地址
-      <input type="text" id="proj-addr" placeholder="例: 台北市大安區仁愛路三段100號">
+      <input type="text" id="proj-addr" placeholder="例: 台北市大安区仁爱路三段100号">
     </label>
     <label class="project-dialog__field">
-      副標題 (英文標籤)
+      副标题（英文标签）
       <input type="text" id="proj-sub" placeholder="Tile Layout">
     </label>
     <div class="project-dialog__actions">
       <button type="button" id="proj-cancel" class="project-dialog__button">取消</button>
-      <button type="button" id="proj-save" class="project-dialog__button project-dialog__button--primary">儲存</button>
+      <button type="button" id="proj-save" class="project-dialog__button project-dialog__button--primary">保存</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="preview3d-dialog" class="preview3d-dialog">
+  <div class="preview3d-shell">
+    <div class="preview3d-header">
+      <div>
+        <h2>3D 瓷砖预览</h2>
+        <p>默认从房间内部观察；拖动画布旋转相机，滚轮缩放，模型会跟随当前排砖配置更新。</p>
+      </div>
+      <button type="button" id="preview3d-close" class="project-dialog__button" aria-label="关闭 3D 预览">关闭</button>
+    </div>
+    <div class="preview3d-body">
+      <div class="preview3d-stage">
+        <canvas id="preview3d-canvas" aria-label="3D 瓷砖模型预览"></canvas>
+        <div id="preview3d-hint" class="preview3d-hint">拖拽旋转 · 滚轮缩放</div>
+      </div>
+      <aside class="preview3d-controls" aria-label="3D 相机控制">
+        <h3>相机</h3>
+        <label>水平旋转 <output id="preview3d-yaw-value">35°</output><input id="preview3d-yaw" type="range" min="-180" max="180" step="1" value="35"></label>
+        <label>俯仰角 <output id="preview3d-pitch-value">0°</output><input id="preview3d-pitch" type="range" min="-25" max="25" step="1" value="0"></label>
+        <label>视野角 <output id="preview3d-fov-value">55°</output><input id="preview3d-fov" type="range" min="30" max="100" step="1" value="55"></label>
+        <label>缩放 <output id="preview3d-zoom-value">100%</output><input id="preview3d-zoom" type="range" min="60" max="180" step="1" value="100"></label>
+        <button type="button" id="preview3d-reset" class="preview3d-reset">重置相机</button>
+        <div id="preview3d-summary" class="preview3d-summary"></div>
+      </aside>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="profiles-dialog" class="project-dialog profiles-dialog">
+  <form method="dialog" class="project-dialog__form">
+    <h3 class="project-dialog__title">保存和切换配置</h3>
+    <label class="project-dialog__field">
+      配置名称
+      <input id="profile-name" type="text" placeholder="例如：主卫 600×300">
+    </label>
+    <div class="profiles-dialog__actions">
+      <button type="button" id="profile-save" class="project-dialog__button project-dialog__button--primary">保存当前配置</button>
+    </div>
+    <label class="project-dialog__field">
+      已保存配置
+      <select id="profile-select" size="6"></select>
+    </label>
+    <div class="profiles-dialog__actions">
+      <button type="button" id="profile-load" class="project-dialog__button">切换到选中配置</button>
+      <button type="button" id="profile-delete" class="project-dialog__button project-dialog__button--danger">删除</button>
+    </div>
+    <div class="profiles-dialog__footer">
+      <button type="button" id="profile-close" class="project-dialog__button">关闭</button>
     </div>
   </form>
 </dialog>
@@ -231,10 +284,12 @@
 <script defer src="src/js/plan.js"></script>
 <script defer src="src/js/views.js"></script>
 <script defer src="src/js/controls.js"></script>
+<script defer src="src/js/profiles.js"></script>
 <script defer src="src/js/export.js"></script>
+<script defer src="src/js/preview3d.js"></script>
 <script defer src="src/js/bootstrap.js"></script>
 
-<!-- GoatCounter 訪問統計 -->
+<!-- GoatCounter 訪问統计 -->
 <script data-goatcounter="https://onespacelab.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>

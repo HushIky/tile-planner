@@ -115,7 +115,7 @@ function withForcedLightTheme(fn){
     });
 }
 
-// Export wrapper: forces light theme + 建築風 dim notation, restores both after.
+// Export wrapper: forces light theme + 建筑风 dim notation, restores both after.
 function withExportContext(fn){
   return withForcedLightTheme(async () => {
     const prevDim = state.tiles.dimStyle;
@@ -142,14 +142,14 @@ function getExportStatsData(){
     full: { label: '全片', value: g('s-'+pfx+'-full'), unit: '片' },
     cut:  { label: '裁切', value: g('s-'+pfx+'-cut'),  unit: '片' },
     buy:  { label: '估購', value: g('s-'+pfx+'-buy'),  unit: g('s-'+pfx+'-buy-sub') },
-    area: { label: '鋪貼', value: g('s-'+pfx+'-area'), unit: 'm²  /  '+g('s-'+pfx+'-pin')+' 坪' }
+    area: { label: '铺贴', value: g('s-'+pfx+'-area'), unit: 'm²  /  '+g('s-'+pfx+'-pin')+' 坪' }
   });
   return { wall: row('w'), floor: row('f') };
 }
 function getExportStatsLines(){
   const d = getExportStatsData();
-  const fmt = (lbl, r) => `${lbl}:全片 ${r.full.value} 片  /  裁切 ${r.cut.value} 片  /  估購 ${r.buy.value} ${r.buy.unit}  /  鋪貼 ${r.area.value} ${r.area.unit}`;
-  return [fmt('牆面磁磚', d.wall), fmt('地板磁磚', d.floor)];
+  const fmt = (lbl, r) => `${lbl}:全片 ${r.full.value} 片  /  裁切 ${r.cut.value} 片  /  估購 ${r.buy.value} ${r.buy.unit}  /  铺贴 ${r.area.value} ${r.area.unit}`;
+  return [fmt('墙面瓷砖', d.wall), fmt('地板瓷砖', d.floor)];
 }
 
 // ===== Kami design tokens (shared by PNG / SVG / PDF export) =====
@@ -163,9 +163,9 @@ const KAMI = {
 };
 
 // LINE watermark — fixed branding
-const LINE_WATERMARK = '官方LINE: @329uzcco · 廢棄物清運快速估價';
+const LINE_WATERMARK = '官方 LINE：@329uzcco · 废弃物清运快速估价';
 
-// ===== Project info (案名/地址/副標題) =====
+// ===== Project info (案名/地址/副标题) =====
 const PROJ_KEY = 'tilePlanner.projectInfo.v1';
 function getProjectInfo(){
   try {
@@ -213,7 +213,7 @@ function setProjectInfo(p){
 async function exportPNG(){
   const btn = $('ex-png');
   const oldText = btn ? btn.textContent : '';
-  if(btn){ btn.textContent = '匯出中…'; btn.disabled = true; }
+  if(btn){ btn.textContent = '导出中…'; btn.disabled = true; }
   try {
     await withExportContext(async () => {
       const css = getExportCSS();
@@ -284,7 +284,7 @@ async function exportPNG(){
       ctx.fillStyle = KAMI.nearBlack;
       ctx.font = fSerif(24, 500);
       ctx.textBaseline = 'alphabetic';
-      ctx.fillText('浴室磁磚計畫', PAD + 12, y + 22);
+      ctx.fillText('浴室瓷砖计画', PAD + 12, y + 22);
       // meta date right-aligned
       ctx.fillStyle = KAMI.stone;
       ctx.font = fSerif(11, 400);
@@ -327,7 +327,7 @@ async function exportPNG(){
       }
 
       // subtitle (specs in one warm-gray line)
-      const spec = `房間 ${r.length}×${r.width} cm  ·  牆高 ${r.wallHeight} cm  ·  安裝高 ${r.installHeight} cm   |   牆磚 ${cmToMm(t.wallW)}×${cmToMm(t.wallH)} mm  ·  地磚 ${cmToMm(t.floorW)}×${cmToMm(t.floorH)} mm  ·  縫 ${t.groutMm} mm`;
+      const spec = `房间 ${r.length}×${r.width} cm  ·  墙高 ${r.wallHeight} cm  ·  安装高 ${r.installHeight} cm   |   墙砖 ${cmToMm(t.wallW)}×${cmToMm(t.wallH)} mm  ·  地砖 ${cmToMm(t.floorW)}×${cmToMm(t.floorH)} mm  ·  缝 ${t.groutMm} mm`;
       ctx.fillStyle = KAMI.olive;
       ctx.font = fSans(11, 400);
       ctx.fillText(spec, PAD + 12, y + 12);
@@ -380,8 +380,8 @@ async function exportPNG(){
           cx += cellW + cellGap;
         }
       }
-      drawMetricRow(y, '牆面磁磚', stats.wall);
-      drawMetricRow(y + metricRowH + METRIC_GAP, '地板磁磚', stats.floor);
+      drawMetricRow(y, '墙面瓷砖', stats.wall);
+      drawMetricRow(y + metricRowH + METRIC_GAP, '地板瓷砖', stats.floor);
       y += metricBlockH + 24;
 
       // ===== Body section: tags + image cards (architectural style) =====
@@ -408,8 +408,8 @@ async function exportPNG(){
         ctx.fillStyle = KAMI.darkWarm;
         ctx.fillText(' · ' + name, x + 8 + numW, ty + 15);
       }
-      drawTag(leftX, y, 'A-01', 'PLAN · 平面圖');
-      drawTag(rightX, y, 'A-02', 'WALL TILES · 牆面磁磚');
+      drawTag(leftX, y, 'A-01', 'PLAN · 平面图');
+      drawTag(rightX, y, 'A-02', 'WALL TILES · 墙面瓷砖');
       y += tagH + 8;
 
       // Image cards — architectural thin outline, no fill
@@ -430,7 +430,7 @@ async function exportPNG(){
       // ===== Download Page 1 (layout) =====
       await new Promise((resolve, reject) => {
         canvas.toBlob(blob => {
-          if(!blob){ reject(new Error('canvas.toBlob 失敗')); return; }
+          if(!blob){ reject(new Error('canvas.toBlob 失败')); return; }
           downloadBlob(blob, exportFilename('png', '01_layout'));
           resolve();
         }, 'image/png');
@@ -454,7 +454,7 @@ async function exportPNG(){
 
       let y2 = PAD;
       // tag A-03
-      const tagText = ' · UNFOLDED · 紙盒展開';
+      const tagText = ' · UNFOLDED · 纸盒展开';
       ctx2.font = '500 9px ' + KAMI.mono;
       const numW2 = ctx2.measureText('A-03').width;
       const restW = ctx2.measureText(tagText).width;
@@ -478,14 +478,14 @@ async function exportPNG(){
 
       await new Promise((resolve, reject) => {
         canvas2.toBlob(blob => {
-          if(!blob){ reject(new Error('canvas.toBlob 失敗')); return; }
+          if(!blob){ reject(new Error('canvas.toBlob 失败')); return; }
           downloadBlob(blob, exportFilename('png', '02_unfolded'));
           resolve();
         }, 'image/png');
       });
     });
   } catch(e){
-    alert('匯出 PNG 失敗:' + (e.message || e));
+    alert('导出 PNG 失败:' + (e.message || e));
     console.error('exportPNG error:', e);
   } finally {
     if(btn){ btn.textContent = oldText; btn.disabled = false; }
@@ -509,7 +509,7 @@ function roundRect(ctx, x, y, w, h, r, fill, stroke){
 async function exportSVG(){
   const btn = $('ex-svg');
   const oldText = btn ? btn.textContent : '';
-  if(btn){ btn.textContent = '匯出中…'; btn.disabled = true; }
+  if(btn){ btn.textContent = '导出中…'; btn.disabled = true; }
   try {
     await withExportContext(async () => {
       const css = getExportCSS();
@@ -611,7 +611,7 @@ async function exportSVG(){
       // brand left bar
       out.appendChild(mkRect(PAD, y, 2.5, titleBarH, KAMI.brand, {r:1.2}));
       // title
-      out.appendChild(mkText(PAD + 12, y + 22, '浴室磁磚計畫', 24, KAMI.nearBlack, 500));
+      out.appendChild(mkText(PAD + 12, y + 22, '浴室瓷砖计画', 24, KAMI.nearBlack, 500));
       // meta date (right)
       out.appendChild(mkText(totalW - PAD, y + 20, ts, 11, KAMI.stone, 400, 'end'));
       y += titleH;
@@ -646,7 +646,7 @@ async function exportSVG(){
       }
 
       // spec line (warm-gray)
-      const spec = `房間 ${r.length}×${r.width} cm  ·  牆高 ${r.wallHeight} cm  ·  安裝高 ${r.installHeight} cm   |   牆磚 ${cmToMm(t.wallW)}×${cmToMm(t.wallH)} mm  ·  地磚 ${cmToMm(t.floorW)}×${cmToMm(t.floorH)} mm  ·  縫 ${t.groutMm} mm`;
+      const spec = `房间 ${r.length}×${r.width} cm  ·  墙高 ${r.wallHeight} cm  ·  安装高 ${r.installHeight} cm   |   墙砖 ${cmToMm(t.wallW)}×${cmToMm(t.wallH)} mm  ·  地砖 ${cmToMm(t.floorW)}×${cmToMm(t.floorH)} mm  ·  缝 ${t.groutMm} mm`;
       out.appendChild(mkText(PAD + 12, y + 12, spec, 11, KAMI.olive, 400));
       y += subH;
 
@@ -676,8 +676,8 @@ async function exportSVG(){
           cx += cellW + cellGap;
         }
       }
-      drawMetricRow(y, '牆面磁磚', stats.wall);
-      drawMetricRow(y + metricRowH + METRIC_GAP, '地板磁磚', stats.floor);
+      drawMetricRow(y, '墙面瓷砖', stats.wall);
+      drawMetricRow(y + metricRowH + METRIC_GAP, '地板瓷砖', stats.floor);
       y += metricBlockH + 24;
 
       // ===== Tags + image cards (architectural style) =====
@@ -705,8 +705,8 @@ async function exportSVG(){
         t.appendChild(tsNum); t.appendChild(tsName);
         out.appendChild(t);
       }
-      drawTag(leftX, y, 'A-01', 'PLAN · 平面圖');
-      drawTag(rightX, y, 'A-02', 'WALL TILES · 牆面磁磚');
+      drawTag(leftX, y, 'A-01', 'PLAN · 平面图');
+      drawTag(rightX, y, 'A-02', 'WALL TILES · 墙面瓷砖');
       y += tagH + 8;
 
       // Image cards — thin architectural outline, no fill
@@ -763,7 +763,7 @@ async function exportSVG(){
 
       // tag A-03
       let p2y = PAD;
-      const t2_w = 'A-03 · UNFOLDED · 紙盒展開'.length * 5.4 + 16;
+      const t2_w = 'A-03 · UNFOLDED · 纸盒展开'.length * 5.4 + 16;
       const t2_rect = document.createElementNS(ns, 'rect');
       t2_rect.setAttribute('x', PAD); t2_rect.setAttribute('y', p2y);
       t2_rect.setAttribute('width', t2_w); t2_rect.setAttribute('height', tagH);
@@ -779,7 +779,7 @@ async function exportSVG(){
       t2Num.textContent = 'A-03';
       const t2Name = document.createElementNS(ns, 'tspan');
       t2Name.setAttribute('font-weight', 500); t2Name.setAttribute('fill', KAMI.darkWarm);
-      t2Name.textContent = ' · UNFOLDED · 紙盒展開';
+      t2Name.textContent = ' · UNFOLDED · 纸盒展开';
       t2.appendChild(t2Num); t2.appendChild(t2Name);
       out2.appendChild(t2);
       p2y += tagH + 8;
@@ -807,7 +807,7 @@ async function exportSVG(){
       downloadBlob(blob2, exportFilename('svg', '02_unfolded'));
     });
   } catch(e){
-    alert('匯出 SVG 失敗:' + (e.message || e));
+    alert('导出 SVG 失败:' + (e.message || e));
     console.error('exportSVG error:', e);
   } finally {
     if(btn){ btn.textContent = oldText; btn.disabled = false; }
@@ -817,7 +817,7 @@ async function exportSVG(){
 async function exportPDF(){
   const btn = $('ex-pdf');
   const oldText = btn ? btn.textContent : '';
-  if(btn){ btn.textContent = '準備中…'; btn.disabled = true; }
+  if(btn){ btn.textContent = '准备中…'; btn.disabled = true; }
   let container = null;
   const oldTitle = document.title;
   // Browsers seed the print dialog's filename from document.title — sync with exportFilename.
@@ -839,14 +839,14 @@ async function exportPDF(){
       const cellHtml = c => `<div class="cell"><div class="lbl">${esc(c.label)}</div><div class="val">${esc(c.value)}<span class="unit">${esc(c.unit)}</span></div></div>`;
       const rowCells = row => `${cellHtml(row.full)}${cellHtml(row.cut)}${cellHtml(row.buy)}${cellHtml(row.area)}`;
       const proj = getProjectInfo();
-      const specHtml = `${r.length}×${r.width}&thinsp;cm · 周長&thinsp;${2*(r.length+r.width)}&thinsp;cm · 牆高&thinsp;${r.wallHeight}&thinsp;cm · 鋪磚高&thinsp;${r.installHeight}&thinsp;cm${mat.location ? '　|　' + esc(mat.location) : ''}　|　牆磚&thinsp;${cmToMm(t.wallW)}×${cmToMm(t.wallH)}&thinsp;mm&thinsp;縫&thinsp;${t.groutWallMm||t.groutMm||3}&thinsp;mm · 地磚&thinsp;${cmToMm(t.floorW)}×${cmToMm(t.floorH)}&thinsp;mm&thinsp;縫&thinsp;${t.groutFloorMm||t.groutMm||3}&thinsp;mm`;
+      const specHtml = `${r.length}×${r.width}&thinsp;cm · 周长&thinsp;${2*(r.length+r.width)}&thinsp;cm · 墙高&thinsp;${r.wallHeight}&thinsp;cm · 铺砖高&thinsp;${r.installHeight}&thinsp;cm${mat.location ? '　|　' + esc(mat.location) : ''}　|　墙砖&thinsp;${cmToMm(t.wallW)}×${cmToMm(t.wallH)}&thinsp;mm&thinsp;缝&thinsp;${t.groutWallMm||t.groutMm||3}&thinsp;mm · 地砖&thinsp;${cmToMm(t.floorW)}×${cmToMm(t.floorH)}&thinsp;mm&thinsp;缝&thinsp;${t.groutFloorMm||t.groutMm||3}&thinsp;mm`;
       const projHtml = (proj.name || proj.addr)
         ? `<p class="proj-line">${proj.name ? `<span class="proj-name">${esc(proj.name)}</span>` : ''}${proj.name && proj.addr ? '<span class="sep"> · </span>' : ''}${proj.addr ? `<span class="proj-addr">${esc(proj.addr)}</span>` : ''}</p>`
         : '';
       const headerHtml = `
         <div class="print-header">
           <div class="title-wrap">
-            <h1>浴室磁磚計畫</h1>
+            <h1>浴室瓷砖计画</h1>
             <p class="subtitle">${esc(proj.sub || 'Tile Layout')}</p>
             ${projHtml}
             <p class="spec">${specHtml}</p>
@@ -870,25 +870,25 @@ async function exportPDF(){
       for(const w of wins2){
         const qty = Math.ceil((w.width*2 + w.height*2) / STRIP2);
         trimTotal2 += qty;
-        trimParts2.push(`窗${w.wall} ${qty}條`);
+        trimParts2.push(`窗${w.wall} ${qty}条`);
       }
       for(const s of shafts2){
         const qty = Math.ceil(shaftExposedCorners(s) * H2 / STRIP2);
         trimTotal2 += qty;
-        trimParts2.push(`管道間${s.wall} ${qty}條`);
+        trimParts2.push(`管道间${s.wall} ${qty}条`);
       }
       let thrSummary = '';
       if(hasThr2){
         const thr = state.threshold;
         const thrLen2 = thr.axis==='y' ? r.width : r.length;
         const qty = Math.ceil(thr.width / STRIP2) || 1;
-        thrSummary = `門檻 ${thr.width}×${thrLen2}cm × ${qty}條`;
+        thrSummary = `门槛 ${thr.width}×${thrLen2}cm × ${qty}条`;
       }
 
       // Row builder: label+model | full | cut | buy | area
       const mk = (label, model, full, cut, buy, buyUnit, area, groutModel) => {
         const modelTxt  = model      ? `<span class="pm-model">${esc2(model)}</span>`      : '';
-        const groutTxt2 = groutModel ? `<span class="pm-grout">填縫劑&thinsp;${esc2(groutModel)}</span>` : '';
+        const groutTxt2 = groutModel ? `<span class="pm-grout">填缝剂&thinsp;${esc2(groutModel)}</span>` : '';
         return `<tr class="pm-row">
           <td class="pm-item">${esc2(label)}${modelTxt}${groutTxt2}</td>
           <td class="pm-num">${full}<span class="pm-unit">片</span></td>
@@ -900,13 +900,13 @@ async function exportPDF(){
 
       // Trim + threshold summary row (grout now shown inline in tile rows above)
       const trimTxt   = trimTotal2 > 0
-        ? `收邊條&nbsp;<strong>${trimTotal2}&thinsp;條</strong>&nbsp;<span class="pm-muted">(${trimParts2.join('、')}，每條${STRIP2}cm)</span>`
+        ? `收边条&nbsp;<strong>${trimTotal2}&thinsp;条</strong>&nbsp;<span class="pm-muted">(${trimParts2.join('、')}，每条${STRIP2}cm)</span>`
         : '';
       const thrTxt    = thrSummary ? `${esc2(thrSummary)}` : '';
       const auxLine   = [trimTxt, thrTxt].filter(Boolean).join('　|　');
 
       // Compact spec for page 2 header
-      const specLine2 = `${r.length}×${r.width}cm · 周長${perimeter2}cm · 牆高${r.wallHeight}cm · 鋪磚高${H2}cm`;
+      const specLine2 = `${r.length}×${r.width}cm · 周长${perimeter2}cm · 墙高${r.wallHeight}cm · 铺砖高${H2}cm`;
 
       // ── Page 1: Header + Stats + Plan + Wall tiles ────────────────────
       container.innerHTML = `
@@ -914,15 +914,15 @@ async function exportPDF(){
           ${headerHtml}
           <table class="pm-tbl">
             <thead><tr>
-              <th class="pm-item">項目</th>
+              <th class="pm-item">项目</th>
               <th class="pm-num">全片</th>
               <th class="pm-num">裁切</th>
               <th class="pm-num pm-buy">估購</th>
-              <th class="pm-num">鋪貼面積</th>
+              <th class="pm-num">铺贴面積</th>
             </tr></thead>
             <tbody>
-              ${mk('牆磚', mat.wallTileModel, stats.wall.full.value, stats.wall.cut.value, stats.wall.buy.value, stats.wall.buy.unit, stats.wall.area.value, mat.groutWallModel)}
-              ${mk('地磚', mat.floorTileModel, stats.floor.full.value, stats.floor.cut.value, stats.floor.buy.value, stats.floor.buy.unit, stats.floor.area.value, mat.groutFloorModel)}
+              ${mk('墙砖', mat.wallTileModel, stats.wall.full.value, stats.wall.cut.value, stats.wall.buy.value, stats.wall.buy.unit, stats.wall.area.value, mat.groutWallModel)}
+              ${mk('地砖', mat.floorTileModel, stats.floor.full.value, stats.floor.cut.value, stats.floor.buy.value, stats.floor.buy.unit, stats.floor.area.value, mat.groutFloorModel)}
               ${auxLine ? `<tr class="pm-aux"><td colspan="5">${auxLine}</td></tr>` : ''}
             </tbody>
           </table>
@@ -938,7 +938,7 @@ async function exportPDF(){
 
         <div class="print-page print-page--full">
           <div class="print-page2-header">
-            <span class="p2-title">紙盒展開</span>
+            <span class="p2-title">纸盒展开</span>
             <span class="p2-spec">${specLine2}</span>
             <span class="p2-meta">${esc(ts)}</span>
           </div>
@@ -981,7 +981,7 @@ async function exportPDF(){
       });
     });
   } catch(e){
-    alert('匯出 PDF 失敗:' + (e.message || e));
+    alert('导出 PDF 失败:' + (e.message || e));
     console.error('exportPDF error:', e);
   } finally {
     if(container) container.remove();

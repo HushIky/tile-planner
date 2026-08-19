@@ -2,6 +2,6 @@
   "name": "tile-planner",
   "private": true,
   "scripts": {
-    "check": "node --check src/js/core.js && node --check src/js/plan.js && node --check src/js/views.js && node --check src/js/controls.js && node --check src/js/export.js && node --check src/js/bootstrap.js"
+    "check": "node --check src/js/core.js && node --check src/js/plan.js && node --check src/js/views.js && node --check src/js/controls.js && node --check src/js/profiles.js && node --check src/js/export.js && node --check src/js/preview3d.js && node --check src/js/bootstrap.js"
   }
 }
