@@ -24,12 +24,12 @@
   function palette(){
     const dark = document.documentElement.dataset.theme === 'dark';
     return dark ? {
-      bg:'#20211f', grid:'#55564f', wall:'#454640', tile:'#756a58', cut:'#927d5c',
-      floor:'#716657', floorCut:'#897158', grout:'#252622', opening:'#171816', shaft:'#5e655f',
+      bg:'#20211f', grid:'#55564f', wall:'#454640', tile:'#f7f7f4', cut:'#e5e5e0',
+      floor:'#f7f7f4', floorCut:'#e5e5e0', grout:'#11110f', opening:'#171816', shaft:'#5e655f',
       threshold:'#a98b61', drain:'#b4b7ae', text:'#d8d8d0', accent:'#8fbbea'
     } : {
-      bg:'#f4f3ee', grid:'#b9b8b0', wall:'#d5d2c8', tile:'#e8dec8', cut:'#c7ae7e',
-      floor:'#d7cbb8', floorCut:'#bca889', grout:'#f7f6f1', opening:'#77776f', shaft:'#989b91',
+      bg:'#f4f3ee', grid:'#b9b8b0', wall:'#d5d2c8', tile:'#ffffff', cut:'#eeeeea',
+      floor:'#ffffff', floorCut:'#eeeeea', grout:'#11110f', opening:'#77776f', shaft:'#989b91',
       threshold:'#b28c58', drain:'#555850', text:'#4c4c47', accent:'#185fa5'
     };
   }
@@ -96,7 +96,8 @@
         (t.offsetX&&t.offsetX[wall])||0,t.offsetY||0);
       for(const tile of tiles){
         for(const p of tile.pieces){
-          const y0=r.installHeight-p.y-p.h, y1=r.installHeight-p.y;
+          // buildTiles() uses a floor-up local Y axis: y=0 is the floor.
+          const y0=p.y, y1=p.y+p.h;
           addQuad(wallQuad(wall,p.x,p.x+p.w,y0,y1,0.35),tile.full?colors.tile:colors.cut,colors.grout,1,0.55);
         }
       }
@@ -176,7 +177,14 @@
       if(clipped.length<3) return null;
       const projected=clipped.map(point=>({x:width/2+point.x*focal/point.depth,y:height/2-point.y*focal/point.depth,depth:point.depth}));
       return {...obj, projected, depth:clipped.reduce((sum,p)=>sum+p.depth,0)/clipped.length,index};
-    }).filter(Boolean).sort((a,b)=>b.depth-a.depth);
+    }).filter(Boolean).sort((a,b)=>{
+      // Render every surface in deterministic material layers. Room shells
+      // are always painted first, followed by recesses, every tile face, then
+      // raised fixtures. This prevents a wall/floor backing polygon from
+      // covering tiles merely because its average depth changed with yaw.
+      const layer=(a.order||0)-(b.order||0);
+      return layer || b.depth-a.depth;
+    });
   }
 
   function renderCanvas(){

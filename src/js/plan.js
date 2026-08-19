@@ -1,4 +1,5 @@
 // Top-down SVG rendering and direct manipulation interactions.
+const PLAN_PAD = 80;
 function planScale(){
   const r=state.room;
   const cv=$('cv-container');
@@ -59,7 +60,7 @@ function renderPlan(floorData){
 
   const r=state.room;
   const scale=planScale();
-  const pad=80;
+  const pad=PLAN_PAD;
   const svgW = r.length*scale + pad*2;
   const svgH = r.width*scale + pad*2;
   svg.setAttribute('viewBox', `0 0 ${svgW} ${svgH}`);
@@ -555,7 +556,7 @@ function svgPt(e){
 
 // Project SVG point onto a named wall, return distance in cm from wall start (a)
 function projectOnWall(wallName, x, y){
-  const wp = wallPath(wallName, planScale(), 50);
+  const wp = wallPath(wallName, planScale(), PLAN_PAD);
   const a = wp.a, b = wp.b;
   const dx = b.x - a.x, dy = b.y - a.y;
   const len = Math.hypot(dx, dy); if(len === 0) return 0;
@@ -632,7 +633,7 @@ function startShaftDrag(e, sid){
   e.stopPropagation();
   const pt = svgPt(e); if(!pt) return;
   const scale = planScale();
-  const pad = 50;
+  const pad = PLAN_PAD;
   const fx = (pt.x - pad)/scale, fy = (pt.y - pad)/scale;
   // Grab offset along its current wall
   const projAlong = projectOnWall(s.wall, pt.x, pt.y);
@@ -756,7 +757,7 @@ document.addEventListener('pointermove', e => {
   } else if(dragging.kind === 'shaft'){
     const s = state.shafts.find(x => x.id === dragging.shaftId); if(!s) return;
     const scale = planScale();
-    const pad = 50;
+    const pad = PLAN_PAD;
     const fx = (pt.x - pad)/scale, fy = (pt.y - pad)/scale;
     // Decide whether to switch wall: pick nearest, but require a small bias to
     // prevent jitter when fingers are right between two walls.
@@ -939,7 +940,7 @@ function applyOpeningDist(opId, kind, value){
 
 function addOpToWall(wallName, pt){
   if(!pendingOp) return;
-  const wp=wallPath(wallName, planScale(), 50);
+  const wp=wallPath(wallName, planScale(), PLAN_PAD);
   const a=wp.a, b=wp.b;
   const dx=b.x-a.x, dy=b.y-a.y, len=Math.hypot(dx,dy);
   const ux=dx/len, uy=dy/len;
